@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/shop_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="1px"
+            android:background="@color/divider" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/shop_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            fresco:roundAsCircle="false"
+            fresco:placeholderImageScaleType="focusCrop"
+            fresco:placeholderImage="@mipmap/ic_launcher" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="1px"
+            android:background="@color/divider" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/shop_tradeName"
+                android:layout_width="230dp"
+                android:layout_height="45dp"
+                android:text="我有：八成的白色小绵羊，无任何毛病，48v，有意华农面交"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="100dp"
+                android:layout_height="1dp"
+                android:layout_below="@id/shop_tradeName" />
+
+            <TextView
+                android:id="@+id/shop_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/shop_tradeName"
+                android:background="@color/divider"
+                android:gravity="center"
+                android:text="1500元"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/shop_original_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:text="1300元"
+                android:layout_below="@+id/shop_price" />
+
+            <TextView
+                android:id="@+id/shop_personName"
+                android:layout_width="wrap_content"
+                android:layout_height="17sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/view"
+                android:text="梁谷苳"
+                android:textSize="12dp" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/shop_sex"
+                android:layout_width="17sp"
+                android:layout_height="20sp"
+                android:layout_marginStart="5dp"
+                fresco:placeholderImage="@mipmap/man"
+                fresco:placeholderImageScaleType="fitCenter"
+                android:layout_below="@+id/view"
+                android:layout_toEndOf="@+id/shop_personName" />
+
+            <TextView
+                android:id="@+id/shop_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/shop_sex"
+                android:text="1小时前"
+                android:textSize="12dp" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="100dp"
+                android:layout_height="5dp"
+                android:layout_below="@id/shop_personName" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/view1"
+                android:orientation="horizontal">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/shop_deta1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    fresco:placeholderImageScaleType="focusCrop" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/shop_personName" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/shop_deta2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    fresco:placeholderImageScaleType="focusCrop" />
+
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/shop_personName" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/shop_deta3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    fresco:placeholderImageScaleType="focusCrop" />
+
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/shop_personName" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayout"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/shop_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/linearLayout"
+                    android:text="备注备注备注备注备注备注备注备注备注备注备注"
+                    android:textSize="13dp" />
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/shop_personName" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@id/linearLayout1" />
+
+            <View
+                android:id="@+id/view6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/view5"
+                android:background="#000000" />
+
+            <View
+                android:id="@+id/view7"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_below="@id/view6" />
+
+            <RelativeLayout
+                android:layout_below="@id/view7"
+                android:layout_width="match_parent"
+                android:layout_height="25dp">
+
+
+                <TextView
+                    android:id="@+id/shop_pageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="浏览量 170"
+                    android:textSize="12dp" />
+
+                <com.sackcentury.shinebuttonlib.ShineButton
+                    android:id="@+id/shop_shineButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="22dp"
+                    app:btn_color="@android:color/darker_gray"
+                    app:btn_fill_color="#FF6666"
+                    app:siShape="@raw/like"
+                    android:src="@android:color/darker_gray"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true" />
+
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
