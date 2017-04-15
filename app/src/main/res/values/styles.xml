@@ -8,4 +8,48 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--TextView-->
+
+    <style name="NormalTextView">
+        <item name="android:textColor">@color/dark</item>
+        <item name="android:textSize">@dimen/textSize_normal</item>
+    </style>
+
+    <style name="NormalGreyTextView">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">@dimen/textSize_normal</item>
+    </style>
+
+    <style name="SmallTextView">
+        <item name="android:textColor">@color/dark</item>
+        <item name="android:textSize">@dimen/textSize_small</item>
+    </style>
+
+    <style name="SmallGreyTextView">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">@dimen/textSize_small</item>
+    </style>
+
+    <!--设置图片选择器的主题-->
+    <style name="PhotoPickerTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/photopicker_background</item>
+        <item name="actionMenuTextAppearance">@style/ActionMenuTextStyle</item>
+        <!--<item name="actionBarTheme">@style/actionBarTheme</item>-->
+        <!--<item name="actionBarPopupTheme">@style/actionBarPopupTheme</item>-->
+    </style>
+
+    <!-- 设置ActionBar菜单字体 -->
+    <style name="ActionMenuTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="android:textSize">@dimen/action_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="actionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    </style>
+
+    <style name="actionBarPopupTheme" parent="ThemeOverlay.AppCompat.Light">
+    </style>
+
 </resources>

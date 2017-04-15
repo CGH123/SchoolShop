@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/fragment_icon" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <com.sackcentury.shinebuttonlib.ShineButton
+                    android:id="@+id/shop_shineButton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    app:btn_color="@android:color/darker_gray"
+                    app:btn_fill_color="#FF6666"
+                    app:siShape="@raw/like"
+                    app:allow_random_color="false"
+                    android:layout_alignTop="@+id/shop_tradeName"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="25dp" />
+
+                <TextView
+                    android:id="@+id/shop_tradeName"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="我有阔脚裤" />
+
+                <TextView
+                    android:id="@+id/shop_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/shop_tradeName"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="1500元"
+                    android:textColor="@color/green"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/shop_original_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="1300元"
+                    android:layout_alignBaseline="@+id/shop_price"
+                    android:layout_alignBottom="@+id/shop_price"
+                    android:layout_toEndOf="@+id/shop_price" />
+
+                <TextView
+                    android:id="@+id/shop_remained"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignStart="@+id/shop_price"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="剩余1件"
+                    android:layout_below="@+id/shop_price" />
+
+                <TextView
+                    android:id="@+id/shop_pageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="60次浏览"
+                    android:layout_alignBaseline="@+id/shop_remained"
+                    android:layout_alignBottom="@+id/shop_remained"
+                    android:layout_toEndOf="@+id/shop_original_price" />
+
+                <TextView
+                    android:id="@+id/shop_detail_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/shop_pageView"
+                    android:layout_toEndOf="@+id/shop_pageView"
+                    android:layout_marginStart="50dp"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="1小时前" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="商品详细信息：" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="sadfas" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:src="@mipmap/ali_pay"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:src="@mipmap/ali_pay"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:src="@mipmap/ali_pay"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:src="@mipmap/ali_pay"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/orange"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="联系卖方"
+                android:button="@null"/>
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:background="@color/green"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:text="立刻购买"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</LinearLayout>

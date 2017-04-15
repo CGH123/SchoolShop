@@ -1,10 +1,12 @@
 package schoolshop.cgh.com.schoolshop.modules.main.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +19,12 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.base.BaseFragment;
+import schoolshop.cgh.com.schoolshop.common.User;
+import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
 import schoolshop.cgh.com.schoolshop.modules.main.adapter.HomeShopAdapter;
 
 /**
@@ -34,7 +40,11 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
 
     private View view;
     private HomeShopAdapter mAdapter;
-    private List<Map<String,Object>> data;
+    private List<Map<String,Object>> data = new ArrayList<Map<String, Object>>();
+
+    private boolean isLoading = false;
+    private int num = 10;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -59,18 +69,63 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
             mRefreshLayout.setOnRefreshListener(this);
+            //一开始就进行刷新
+            mRefreshLayout.setRefreshing(true);
+            onRefresh();
         }
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        data = getData();
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new HomeShopAdapter(data);
         mRecyclerView.setAdapter(mAdapter);
+        //getData(10);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItemPosition;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                Log.d("test", "StateChanged = " + newState + " item= " + lastVisibleItemPosition);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
+                    Log.d("test", "loading executed");
+
+                    boolean isRefreshing = mRefreshLayout.isRefreshing();
+                    if (isRefreshing) {
+                        mAdapter.notifyItemRemoved(mAdapter.getItemCount());
+                        return;
+                    }
+                    if (!isLoading) {
+                        isLoading = true;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                num = num + 10;
+                                getData(num);
+                                Log.d("test", "load more completed");
+                                isLoading = false;
+                            }
+                        }, 1000);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                Log.d("test", "onScrolled = " + lastVisibleItemPosition);
+
+            }
+        });
     }
 
-    private List<Map<String, Object>> getData()
+
+
+    private void getData(int num)
     {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> map;
-        for(int i=0;i<10;i++)
+        for(int i=0;i<num;i++)
         {
             map = new HashMap<String, Object>();
             map.put("shop_icon", R.mipmap.ali_pay);
@@ -87,7 +142,16 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
             map.put("shop_pageView", "浏览量 100");
             list.add(map);
         }
-        return list;
+        data.clear();
+        data.addAll(list);
+        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyItemRemoved(mAdapter.getItemCount());
+    }
+
+    private Observable<User> fetchDataByNetWork() {
+        return RetrofitSingleton.getInstance()
+                .fetchUser()
+                .compose(this.bindToLifecycle());
     }
 
     @Override
@@ -97,6 +161,27 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
+                //TODO 网络部分的实现
+                fetchDataByNetWork()
+                        .subscribe(new Subscriber<User>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.e("error" , "finished");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("error" , e.toString());
+                            }
+
+                            @Override
+                            public void onNext(User user) {
+                                Log.e("error:UserID=" , user.getId());
+                            }
+                        });
+
+
+                getData(num);
                 mRefreshLayout.setRefreshing(false);
             }
         }, 2000);

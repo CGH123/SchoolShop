@@ -35,9 +35,7 @@
     <color name="gray_light">#d2d2d2</color>
 
     <color name="green">#4CAF50</color>
-    <color name="red">#F44336</color>
     <color name="orange">#FF9800</color>
-    <color name="dark">#000000</color>
 
     <color name="session_photo_scrim">#6000</color>
     <color name="body_text_1_inverse">#deffffff</color>
@@ -73,5 +71,12 @@
     <color name="lineColor">#60d3d3d3</color>
     <color name="defaultTextColor">#6f6f6f</color>
 
+    <color name="dark">#424242</color>
+    <color name="red">#FFD4212A</color>
+    <color name="grey">#8C8C8C</color>
+    <color name="line">#EEEEEE</color>
+    <color name="background">#F9F9FA</color>
+
+    <color name="greyBackground">#FFCFCFCF</color>
 
 </resources>

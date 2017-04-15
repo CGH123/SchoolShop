@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.RadioButton;
@@ -18,11 +17,12 @@ import android.widget.RadioGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import schoolshop.cgh.com.schoolshop.R;
+import schoolshop.cgh.com.schoolshop.base.BaseActivity;
 import schoolshop.cgh.com.schoolshop.modules.message.ui.MessageFragment;
 import schoolshop.cgh.com.schoolshop.modules.my.ui.MyFragment;
 import schoolshop.cgh.com.schoolshop.modules.sell.ui.SellFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener , RadioGroup.OnCheckedChangeListener {
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
     @BindView(R.id.drawer_layout)
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //四个对应的Fragment的布局
     private MainFragment tab_home;
-    private SellFragment tab_send;
+    private SellFragment tab_sell;
     private MessageFragment tab_info;
     private MyFragment tab_my;
 
@@ -86,11 +86,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case 1:
-                if(tab_send==null){
-                    tab_send=new SellFragment();
-                    beginTransaction.add(R.id.main_content,	tab_send);
+                if(tab_sell==null){
+                    tab_sell=new SellFragment();
+                    beginTransaction.add(R.id.main_content,	tab_sell);
                 }else{
-                    beginTransaction.show(tab_send);
+                    beginTransaction.show(tab_sell);
                 }
                 break;
             case 2:
@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void hideFragments(FragmentTransaction transaction) {
         if (tab_home != null)
             transaction.hide(tab_home);
-        if (tab_send != null)
-            transaction.hide(tab_send);
+        if (tab_sell != null)
+            transaction.hide(tab_sell);
         if (tab_info != null)
             transaction.hide(tab_info);
         if (tab_my   != null)
