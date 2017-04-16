@@ -1,7 +1,11 @@
 package schoolshop.cgh.com.schoolshop.component;
 
+import java.util.List;
+
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.Result;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
@@ -60,6 +64,14 @@ public class RetrofitSingleton {
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
+    public Observable<Result<Void>> postUser() {
+        return sApiService.mUserAPI1(new User("300" , "chenguagnhui"))
+                .compose(RxUtils.rxSchedulerHelper());
+    }
 
-
+    public Observable<User> postPicture(List<MultipartBody.Part> parts) {
+        return sApiService.uploadMemberIcon(parts)
+                .flatMap(userList -> Observable.from(userList))
+                .compose(RxUtils.rxSchedulerHelper());
+    }
 }

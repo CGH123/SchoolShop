@@ -221,7 +221,7 @@
                     android:id="@+id/shop_shineButton"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginEnd="22dp"
+                    android:layout_marginEnd="23dp"
                     app:btn_color="@android:color/darker_gray"
                     app:btn_fill_color="#FF6666"
                     app:siShape="@raw/like"

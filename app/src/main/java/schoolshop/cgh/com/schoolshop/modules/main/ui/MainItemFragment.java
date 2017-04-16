@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
 import rx.Subscriber;
 import schoolshop.cgh.com.schoolshop.R;
@@ -146,11 +151,24 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
         data.addAll(list);
         mAdapter.notifyDataSetChanged();
         mAdapter.notifyItemRemoved(mAdapter.getItemCount());
+        Result result;
     }
 
     private Observable<User> fetchDataByNetWork() {
         return RetrofitSingleton.getInstance()
                 .fetchUser()
+                .compose(this.bindToLifecycle());
+    }
+
+    private Observable<Result<Void>> fetchDataByNetWork1() {
+        return RetrofitSingleton.getInstance()
+                .postUser()
+                .compose(this.bindToLifecycle());
+    }
+
+    private Observable<User> fetchDataByNetWork2(List<MultipartBody.Part> parts) {
+        return RetrofitSingleton.getInstance()
+                .postPicture(parts)
                 .compose(this.bindToLifecycle());
     }
 
@@ -162,6 +180,56 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
             @Override
             public void run() {
                 //TODO 网络部分的实现
+                MultipartBody.Builder builder = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM);//表单类型
+                String filePath = "/storage/emulated/0/Pictures/JPEG_20170411_055724_.jpg";
+                File file = new File(filePath);//filePath 图片地址
+                RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                builder.addFormDataPart("imgfile", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
+                String filePaht2 = "/storage/emulated/0/Pictures/JPEG_20170411_055701_.jpg";
+                File file2 = new File(filePaht2);//filePath 图片地址
+                RequestBody imageBody2 = RequestBody.create(MediaType.parse("multipart/form-data"), file2);
+                builder.addFormDataPart("imgfile", file2.getName(), imageBody2);//imgfile 后台接收图片流的参数名
+
+                List<MultipartBody.Part> parts = builder.build().parts();
+                fetchDataByNetWork2(parts)
+                        .subscribe(new Subscriber<User>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.e("error" , "finished");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("error" , e.toString());
+                            }
+
+                            @Override
+                            public void onNext(User user) {
+                                Log.e("error:UserID=" , user.getId());
+                            }
+                        });
+
+                fetchDataByNetWork1()
+                        .subscribe(new Subscriber<Result<Void>>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.e("error" , "finished");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("error" , e.toString());
+                            }
+
+                            @Override
+                            public void onNext(Result<Void> result) {
+                                System.out.println("result=" + result);
+                                Log.e("error:UserID=" , "test Result");
+                            }
+                        });
+
+
                 fetchDataByNetWork()
                         .subscribe(new Subscriber<User>() {
                             @Override
