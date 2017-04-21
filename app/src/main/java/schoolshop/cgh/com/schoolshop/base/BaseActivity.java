@@ -1,10 +1,10 @@
 package schoolshop.cgh.com.schoolshop.base;
 
-import android.support.v7.app.AppCompatActivity;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 /**
  * Created by HUI on 2017-04-13.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends RxAppCompatActivity {
 }

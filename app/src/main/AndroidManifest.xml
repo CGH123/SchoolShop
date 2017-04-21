@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".modules.sell.ui.TempActivity"/>
         <activity android:name=".modules.main.ui.ShopDetailActivity"/>
+        <activity android:name=".modules.main.ui.PersonPageActivity"/>
 
         <!--图片选择器的activity类-->
         <activity

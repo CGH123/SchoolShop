@@ -9,6 +9,7 @@
     android:background="@drawable/selector_common_item_bg">
 
     <LinearLayout
+        android:id="@+id/layout_icon"
         android:background="@color/green"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -63,6 +64,16 @@
                 android:layout_alignParentBottom="true"
                 android:textSize="12sp"
                 tools:text="备注信息" />
+
+            <ImageView
+                android:id="@+id/icon_skip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="18dp"
+                android:visibility="invisible"
+                fresco:srcCompat="@mipmap/ic_go" />
 
         </RelativeLayout>
 

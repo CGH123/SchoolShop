@@ -1,5 +1,14 @@
 package schoolshop.cgh.com.schoolshop.component;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -10,6 +19,8 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import schoolshop.cgh.com.schoolshop.common.User;
+import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.entity.Person;
 import schoolshop.cgh.com.schoolshop.common.utils.RxUtils;
 
 /**
@@ -42,13 +53,22 @@ public class RetrofitSingleton {
 
 
     private void initOkHttp(){
-
+        //TODO 自定义自己的oktttp3
     }
 
     private void initRetrofit(){
+        Gson gson = new GsonBuilder()
+                //配置你的Gson
+                .registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+                    public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                        return new Date(json.getAsJsonPrimitive().getAsLong());
+                    }
+                })
+                .create();
+
         sRetrofit = new Retrofit.Builder()
                 .baseUrl(ApiInterface.HOST)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
@@ -57,8 +77,12 @@ public class RetrofitSingleton {
         return sApiService;
     }
 
-    public Observable<User> fetchUser() {
 
+    /**
+     * 下面为对与服务器交互的数据进行线程调度
+     */
+
+    public Observable<User> fetchUser() {
         return sApiService.mUserAPI()
                 .flatMap(userAPI -> Observable.from(userAPI))
                 .compose(RxUtils.rxSchedulerHelper());
@@ -74,4 +98,22 @@ public class RetrofitSingleton {
                 .flatMap(userList -> Observable.from(userList))
                 .compose(RxUtils.rxSchedulerHelper());
     }
+
+    public Observable<GoodDetail> getGoodList(int offset , int limit , boolean goodDone) {
+        return sApiService.getGoodList(offset , limit , goodDone)
+                .flatMap(goodDetails -> Observable.from(goodDetails))
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<GoodDetail> getPersonGoodList(int personId){
+        return sApiService.getPersonGoodList(personId)
+                .flatMap(goodDetails -> Observable.from(goodDetails))
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Person> getPersonInfo(int personId){
+        return sApiService.getPersonInfo(personId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
 }

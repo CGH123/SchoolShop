@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <ScrollView
@@ -59,7 +60,7 @@
                     android:id="@+id/shop_original_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:textSize="12sp"
                     android:text="1300元"
@@ -120,6 +121,7 @@
                     android:text="商品详细信息：" />
 
                 <TextView
+                    android:id="@+id/shop_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
@@ -129,22 +131,64 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp" />
 
-                <ImageView
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/shop_img1"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:src="@mipmap/ali_pay"/>
-                <ImageView
+                    android:layout_height="256dp"
+                    fresco:placeholderImageScaleType="centerInside" />
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:src="@mipmap/ali_pay"/>
-                <ImageView
+                    android:layout_height="5dp" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/shop_img2"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:src="@mipmap/ali_pay"/>
-                <ImageView
+                    android:layout_height="256dp"
+                    fresco:placeholderImageScaleType="centerInside" />
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:src="@mipmap/ali_pay"/>
+                    android:layout_height="5dp" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/shop_img3"
+                    android:layout_width="match_parent"
+                    android:layout_height="256dp"
+                    fresco:placeholderImageScaleType="centerInside" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/shop_img4"
+                    android:layout_width="match_parent"
+                    android:layout_height="256dp"
+                    fresco:placeholderImageScaleType="centerInside" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/shop_img5"
+                    android:layout_width="match_parent"
+                    android:layout_height="256dp"
+                    fresco:placeholderImageScaleType="centerInside" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/shop_img6"
+                    android:layout_width="match_parent"
+                    android:layout_height="256dp"
+                    fresco:placeholderImageScaleType="centerInside" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
 
             </LinearLayout>
 
@@ -157,11 +201,13 @@
         android:layout_height="40dp" >
 
         <RadioGroup
+            android:id="@+id/shop_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/shop_contact"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -172,6 +218,7 @@
                 android:button="@null"/>
 
             <RadioButton
+                android:id="@+id/shop_buy"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

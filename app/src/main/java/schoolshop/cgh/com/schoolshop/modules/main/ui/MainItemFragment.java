@@ -1,7 +1,7 @@
 package schoolshop.cgh.com.schoolshop.modules.main.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,23 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
 import rx.Subscriber;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.base.BaseFragment;
 import schoolshop.cgh.com.schoolshop.common.User;
+import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.utils.ImageUtils;
 import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
 import schoolshop.cgh.com.schoolshop.modules.main.adapter.HomeShopAdapter;
 
@@ -36,7 +33,7 @@ import schoolshop.cgh.com.schoolshop.modules.main.adapter.HomeShopAdapter;
  * Created by HUI on 2017-04-13.
  */
 
-public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
@@ -45,10 +42,9 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
 
     private View view;
     private HomeShopAdapter mAdapter;
-    private List<Map<String,Object>> data = new ArrayList<Map<String, Object>>();
+    private List<GoodDetail> goodList = new ArrayList<>();
 
     private boolean isLoading = false;
-    private int num = 10;
 
 
     @Override
@@ -81,10 +77,28 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new HomeShopAdapter(data);
+        mAdapter = new HomeShopAdapter(goodList);
         mRecyclerView.setAdapter(mAdapter);
-        //getData(10);
 
+        //设置Adapter的item点击事件
+        mAdapter.setOnItemClickListener((view , position) -> {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("goodDetail", goodList.get(position));
+            intent.putExtras(bundle);
+            intent.setClass(getActivity(), ShopDetailActivity.class);
+            startActivity(intent);
+        });
+
+        //设置Adapter的icon点击事件
+        mAdapter.setOnIconClickListener((position) -> {
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), PersonPageActivity.class);
+            intent.putExtra("personId" , goodList.get(position).getPersonId());
+            startActivity(intent);
+        });
+
+        //设置Adapter的滑动事件
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItemPosition;
             @Override
@@ -101,11 +115,11 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
                     }
                     if (!isLoading) {
                         isLoading = true;
-                        new Handler().postDelayed(new Runnable() {
+                        mRefreshLayout.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                num = num + 10;
-                                getData(num);
+                                //执行加载更新更多的操作
+                                initRecycleView(goodList.size() , 20 , false , false);
                                 Log.d("test", "load more completed");
                                 isLoading = false;
                             }
@@ -125,34 +139,76 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
     }
 
 
+    @Override
+    public void onRefresh() {
+        // start refresh
+        Toast.makeText(getActivity() , "i am refreshing" , Toast.LENGTH_SHORT).show();
+        mRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //TODO 网络部分的实现
+                initRecycleView(0 , 20 , false , true);
 
-    private void getData(int num)
-    {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        Map<String, Object> map;
-        for(int i=0;i<num;i++)
-        {
-            map = new HashMap<String, Object>();
-            map.put("shop_icon", R.mipmap.ali_pay);
-            map.put("shop_tradeName", "我有：八成的白色小绵羊，无任何毛病，48v，有意华农面交");
-            map.put("shop_price", "1500元");
-            map.put("shop_original_price", "1300元");
-            map.put("shop_personName", "梁谷苳");
-            map.put("shop_sex", R.mipmap.woman);
-            map.put("shop_time", "2小时前");
-            map.put("shop_deta1", R.mipmap.erro);
-            map.put("shop_deta2", R.mipmap.erro);
-            map.put("shop_deta3", R.mipmap.erro);
-            map.put("shop_detail", "这是一款哈雷，我觉得可以比你在校园开保时捷还要猛");
-            map.put("shop_pageView", "浏览量 100");
-            list.add(map);
-        }
-        data.clear();
-        data.addAll(list);
-        mAdapter.notifyDataSetChanged();
-        mAdapter.notifyItemRemoved(mAdapter.getItemCount());
-        Result result;
+                String filePath = "/storage/emulated/0/Pictures/JPEG_20170411_055724_.jpg";
+                String filePath2 = "/storage/emulated/0/Pictures/JPEG_20170411_055701_.jpg";
+                List<String> list = new ArrayList<String>();
+                list.add(filePath);
+                list.add(filePath2);
+                List<MultipartBody.Part> parts = ImageUtils.getPartList(list);
+                fetchDataByNetWork2(parts)
+                        .subscribe(new Subscriber<User>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.e("error" , "finished");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("error" , e.toString());
+                            }
+
+                            @Override
+                            public void onNext(User user) {
+                                Log.e("error:UserID=" , user.getId());
+                            }
+                        });
+
+
+                mRefreshLayout.setRefreshing(false);
+            }
+        }, 2000);
     }
+
+    /**
+     * 商品列表信息查询设置
+     */
+    private void initRecycleView(int offset , int limit , boolean goodDone , boolean clear){
+        fetchDataByGood(offset , limit , goodDone)
+                .doOnSubscribe(() -> {
+                    if(clear){
+                        goodList.clear();
+                    }
+                })
+                .subscribe(new Subscriber<GoodDetail>() {
+                    @Override
+                    public void onCompleted() {
+                        mAdapter.notifyDataSetChanged();
+                        Log.e("error" , "good finished");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("error" , e.toString());
+                    }
+
+                    @Override
+                    public void onNext(GoodDetail goodDetail) {
+                        goodList.add(goodDetail);
+                    }
+                });
+    }
+
+    //完成生命周期同步，防止RxJava内存泄漏
 
     private Observable<User> fetchDataByNetWork() {
         return RetrofitSingleton.getInstance()
@@ -172,86 +228,11 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
                 .compose(this.bindToLifecycle());
     }
 
-    @Override
-    public void onRefresh() {
-        // start refresh
-        Toast.makeText(getActivity() , "i am refreshing" , Toast.LENGTH_SHORT).show();
-        mRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //TODO 网络部分的实现
-                MultipartBody.Builder builder = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM);//表单类型
-                String filePath = "/storage/emulated/0/Pictures/JPEG_20170411_055724_.jpg";
-                File file = new File(filePath);//filePath 图片地址
-                RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                builder.addFormDataPart("imgfile", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
-                String filePaht2 = "/storage/emulated/0/Pictures/JPEG_20170411_055701_.jpg";
-                File file2 = new File(filePaht2);//filePath 图片地址
-                RequestBody imageBody2 = RequestBody.create(MediaType.parse("multipart/form-data"), file2);
-                builder.addFormDataPart("imgfile", file2.getName(), imageBody2);//imgfile 后台接收图片流的参数名
-
-                List<MultipartBody.Part> parts = builder.build().parts();
-                fetchDataByNetWork2(parts)
-                        .subscribe(new Subscriber<User>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.e("error" , "finished");
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e("error" , e.toString());
-                            }
-
-                            @Override
-                            public void onNext(User user) {
-                                Log.e("error:UserID=" , user.getId());
-                            }
-                        });
-
-                fetchDataByNetWork1()
-                        .subscribe(new Subscriber<Result<Void>>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.e("error" , "finished");
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e("error" , e.toString());
-                            }
-
-                            @Override
-                            public void onNext(Result<Void> result) {
-                                System.out.println("result=" + result);
-                                Log.e("error:UserID=" , "test Result");
-                            }
-                        });
-
-
-                fetchDataByNetWork()
-                        .subscribe(new Subscriber<User>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.e("error" , "finished");
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e("error" , e.toString());
-                            }
-
-                            @Override
-                            public void onNext(User user) {
-                                Log.e("error:UserID=" , user.getId());
-                            }
-                        });
-
-
-                getData(num);
-                mRefreshLayout.setRefreshing(false);
-            }
-        }, 2000);
+    private Observable<GoodDetail> fetchDataByGood(int offset , int limit , boolean goodDone) {
+        return RetrofitSingleton.getInstance()
+                .getGoodList(offset , limit , goodDone)
+                .compose(this.bindToLifecycle());
     }
+
+
 }

@@ -15,13 +15,13 @@ import android.widget.Toast;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import schoolshop.cgh.com.schoolshop.R;
+import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.utils.TimeUtils;
 import schoolshop.cgh.com.schoolshop.component.AnimRecyclerViewAdapter;
-import schoolshop.cgh.com.schoolshop.modules.main.ui.ShopDetailActivity;
 import schoolshop.cgh.com.schoolshop.modules.sell.ui.TempActivity;
 
 /**
@@ -36,10 +36,10 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
 
-    private List<Map<String,Object>> data;
+    private List<GoodDetail> goodList;
 
-    public HomeShopAdapter(List<Map<String, Object>> data) {
-        this.data = data;
+    public HomeShopAdapter(List<GoodDetail> goodList) {
+        this.goodList = goodList;
     }
 
     @Override
@@ -72,7 +72,20 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
         int itemType = getItemViewType(position);
         switch (itemType) {
             case TYPE_ITEM:
-                ((ViewHolder1) holder).bind(data.get(position));
+                ((ViewHolder1) holder).bind(goodList.get(position));
+
+                //设置item监听事件
+                if (mOnItemClickListener != null){
+                    holder.itemView.setOnClickListener((view) ->
+                            mOnItemClickListener.onItemClick(holder.itemView , position));
+                }
+
+                //设置icon监听事件
+                if(mOnIconClickListener != null){
+                    holder.itemView.findViewById(R.id.shop_icon)
+                            .setOnClickListener(v -> mOnIconClickListener.onIconClick(position));
+                }
+
                 break;
             case TYPE_FOOTER:
                 //nothing to do
@@ -80,17 +93,42 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
             default:
                 break;
         }
-
-        /*if (SharedPreferenceUtil.getInstance().getMainAnim()) {
-            showItemAnim(holder.itemView, position);
-        }*/
     }
 
     @Override
     public int getItemCount() {
-        return data.size() == 0 ? 0 : data.size() + 1;
+        return goodList.size() == 0 ? 0 : goodList.size() + 1;
     }
 
+    /**
+     * 内部item接口
+     */
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    /**
+     * 内部icon实现接口
+     */
+    private OnIconClickListener mOnIconClickListener;
+
+    public interface OnIconClickListener {
+        void onIconClick(int position);
+    }
+
+    public void setOnIconClickListener(OnIconClickListener mOnIconClickListener) {
+        this.mOnIconClickListener = mOnIconClickListener;
+    }
+
+    /**
+     * Holder类
+     */
     class FootViewHolder extends RecyclerView.ViewHolder{
         public FootViewHolder(View itemView) {
             super(itemView);
@@ -132,44 +170,38 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
             ButterKnife.bind(this , itemView);
         }
 
-        private void bind (Map<String,Object> data){
-            shop_icon.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + data.get("shop_icon")));
-            shop_tradeName.setText((String)data.get("shop_tradeName"));
-            shop_price.setText((String)data.get("shop_price"));
-            shop_original_price.setText((String)data.get("shop_original_price"));
-            shop_personName.setText((String)data.get("shop_personName"));
-            shop_sex.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + data.get("shop_sex")));
-            shop_time.setText((String)data.get("shop_time"));
-            shop_deta1.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + data.get("shop_deta1")));
-            shop_deta2.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + data.get("shop_deta2")));
-            shop_deta3.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + data.get("shop_deta3")));
-            shop_detail.setText((String)data.get("shop_detail"));
-            shop_pageView.setText((String)data.get("shop_pageView"));
+        private void bind (GoodDetail goodDetail){
+            shop_icon.setImageURI(Uri.parse(goodDetail.getPersonIcon()));
+            shop_tradeName.setText(goodDetail.getGoodName());
+            shop_price.setText(goodDetail.getGoodPrice() + "元");
+            shop_original_price.setText(goodDetail.getGoodOriginalPrice() + "元");
+            shop_personName.setText(goodDetail.getPersonName());
+            if(goodDetail.getPersonSex()){
+                shop_sex.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + R.mipmap.man));
+            }else{
+                shop_sex.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + R.mipmap.woman));
+            }
+            shop_time.setText(TimeUtils.getDiff(goodDetail.getGoodTime()));
+            shop_deta1.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
+            shop_deta2.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
+            shop_deta3.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
+            shop_detail.setText(goodDetail.getGoodDetail());
+            shop_pageView.setText("浏览量:" + goodDetail.getGoodViews());
 
             //绑定空间中相关的监听器
             shop_icon.setOnClickListener(this);
-            layout.setOnClickListener(this);
             shop_original_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent;
             switch (v.getId()){
                 case R.id.shop_icon:
                     //Todo:留下来给intent跳转到相关的页面之中
                     Toast.makeText(mContext , "icon has been touch" , Toast.LENGTH_SHORT).show();
-                    intent = new Intent();
+                    Intent intent = new Intent();
                     intent.setClass(mContext, TempActivity.class);
                     intent.putExtra("id" , "01");
-                    mContext.startActivity(intent);
-                    break;
-                case R.id.shop_layout:
-                    //Todo:留下来给intent跳转到相关的页面之中
-                    Toast.makeText(mContext , "all has been touch" , Toast.LENGTH_SHORT).show();
-                    intent = new Intent();
-                    intent.putExtra("id" , "01");
-                    intent.setClass(mContext, ShopDetailActivity.class);
                     mContext.startActivity(intent);
                     break;
             }
