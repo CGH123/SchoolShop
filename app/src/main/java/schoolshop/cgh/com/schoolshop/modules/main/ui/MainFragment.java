@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.base.BaseFragment;
+import schoolshop.cgh.com.schoolshop.base.Constant;
 import schoolshop.cgh.com.schoolshop.modules.main.adapter.HomePagerAdapter;
 
 /**
@@ -60,11 +61,18 @@ public class MainFragment extends BaseFragment{
         ab.setDisplayHomeAsUpEnabled(true);
         //下面添加Tab的属性
         HomePagerAdapter mHomePagerAdapter = new HomePagerAdapter(getActivity().getSupportFragmentManager());
+        //曲线救国，不建议这么做，在fragment中设置好不同的参数
+        Constant.Kind_Now = Constant.Kind_All;
         mHomePagerAdapter.addTab(new MainItemFragment() , "全部");
+        Constant.Kind_Now = Constant.Kind_Book;
         mHomePagerAdapter.addTab(new MainItemFragment() , "书籍");
+        Constant.Kind_Now = Constant.Kind_Digit;
         mHomePagerAdapter.addTab(new MainItemFragment() , "数码");
+        Constant.Kind_Now = Constant.Kind_Cloth;
         mHomePagerAdapter.addTab(new MainItemFragment() , "服饰");
+        Constant.Kind_Now = Constant.Kind_Common;
         mHomePagerAdapter.addTab(new MainItemFragment() , "日用");
+        Constant.Kind_Now = Constant.Kind_Other;
         mHomePagerAdapter.addTab(new MainItemFragment() , "其他");
         mViewPager.setAdapter(mHomePagerAdapter);
         mViewPager.setCurrentItem(0);

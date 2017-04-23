@@ -15,7 +15,7 @@ import okhttp3.RequestBody;
 public class ImageUtils {
 
     /**
-     * 设置图片上传的工具类
+     * 设置多图片上传的工具类
      */
     public static List<MultipartBody.Part> getPartList(List<String> imgList){
         MultipartBody.Builder builder = new MultipartBody.Builder()
@@ -27,6 +27,20 @@ public class ImageUtils {
             RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             builder.addFormDataPart("imgfile", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
         }
+        List<MultipartBody.Part> parts = builder.build().parts();
+        return parts;
+    }
+
+    /**
+     * 设置单张图片上传的工具类
+     */
+    public static List<MultipartBody.Part> getPartList(String image){
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);//表单类型
+        String filePath = image;
+        File file = new File(filePath);//filePath 图片地址
+        RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        builder.addFormDataPart("imgfile", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
         List<MultipartBody.Part> parts = builder.build().parts();
         return parts;
     }

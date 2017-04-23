@@ -11,9 +11,10 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import rx.Observable;
-import schoolshop.cgh.com.schoolshop.common.User;
+import schoolshop.cgh.com.schoolshop.common.User1;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.Person;
+import schoolshop.cgh.com.schoolshop.common.entity.User;
 
 /**
  * 和服务器交互数据的API接口
@@ -22,24 +23,30 @@ import schoolshop.cgh.com.schoolshop.common.entity.Person;
 
 public interface ApiInterface {
     //主机服务器
-    String HOST = "http://101.200.223.115:8080/ssm/";
-    //String HOST = "http://192.168.93.2:8080/ssm/";
+    //String HOST = "http://101.200.223.115:8080/ssm/";
+    String HOST = "http://192.168.93.2:8080/ssm/";
 
     @GET("user/test")
-    Observable<List<User>> mUserAPI();
+    Observable<List<User1>> mUserAPI();
 
-    @POST("user/test1")
-    Observable<Result<Void>> mUserAPI1(@Body User user);
+    @POST("user1/test1")
+    Observable<Result<Void>> mUserAPI1(@Body User1 user1);
 
     @Multipart
     @POST("user/test2")
-    Observable<List<User>> uploadMemberIcon(@Part List<MultipartBody.Part> partList);
+    Observable<List<User1>> uploadMemberIcon(@Part List<MultipartBody.Part> partList);
 
     /**
      * 获取商品列表信息
      */
     @GET("good/info/list/{offset}/{limit}/{goodDone}")
     Observable<List<GoodDetail>> getGoodList(@Path("offset") int offset, @Path("limit") int limit, @Path("goodDone") boolean goodDone);
+
+    /**
+     * 获取分类后的商品列表信息
+     */
+    @GET("good/info/list/{offset}/{limit}/{kind}/{goodDone}")
+    Observable<List<GoodDetail>> getGoodKindList(@Path("offset") int offset, @Path("limit") int limit, @Path("kind") int kind, @Path("goodDone") boolean goodDone);
 
     /**
      * 获取用户销售商品列表信息
@@ -52,5 +59,13 @@ public interface ApiInterface {
      */
     @GET("person/info/{personId}")
     Observable<Person> getPersonInfo(@Path("personId") int personId);
+
+    /**
+     * 用户注册
+     */
+    @Multipart
+    @POST("register")
+    Observable<Person> postRegisterUser(@Body User user1, @Body Person person , @Part List<MultipartBody.Part> partList);
+
 
 }

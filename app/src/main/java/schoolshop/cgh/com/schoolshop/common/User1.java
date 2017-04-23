@@ -6,18 +6,18 @@ import com.google.gson.annotations.SerializedName;
  * Created by HUI on 2017-04-15.
  */
 
-public class User {
+public class User1 {
 
     @SerializedName("id")
     private String id;
     @SerializedName("name")
     private String name;
 
-    public User() {
+    public User1() {
 
     }
 
-    public User(String id, String name) {
+    public User1(String id, String name) {
         this.id = id;
         this.name = name;
     }

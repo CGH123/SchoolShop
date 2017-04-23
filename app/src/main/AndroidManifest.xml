@@ -11,15 +11,24 @@
         android:name=".base.BaseApplication"
         android:theme="@style/AppTheme" >
         <activity android:name=".modules.main.ui.MainActivity" >
+
+        </activity>
+        <activity android:name=".modules.sell.ui.TempActivity"/>
+        <activity android:name=".modules.main.ui.ShopDetailActivity"/>
+        <activity android:name=".modules.main.ui.PersonPageActivity"/>
+        <activity android:name=".modules.my.ui.SelledActivity"/>
+        <activity android:name=".modules.my.ui.SellingActivity"/>
+        <activity android:name=".modules.my.ui.BuyActivity"/>
+        <activity android:name=".modules.my.ui.FavoriteActivity"/>
+        <activity android:name=".modules.my.ui.HelpActivity"/>
+        <activity android:name=".modules.my.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.sell.ui.TempActivity"/>
-        <activity android:name=".modules.main.ui.ShopDetailActivity"/>
-        <activity android:name=".modules.main.ui.PersonPageActivity"/>
+        <activity android:name=".modules.my.ui.RegisterActivity"/>
 
         <!--图片选择器的activity类-->
         <activity

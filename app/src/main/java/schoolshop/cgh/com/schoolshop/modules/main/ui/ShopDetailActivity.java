@@ -1,6 +1,7 @@
 package schoolshop.cgh.com.schoolshop.modules.main.ui;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -106,6 +107,7 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
         shop_img5.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
         shop_img6.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
 
+        shop_original_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         icon_skip.setVisibility(View.VISIBLE);
         person_layout.setOnClickListener(this);
         shop_group.setOnCheckedChangeListener(this);

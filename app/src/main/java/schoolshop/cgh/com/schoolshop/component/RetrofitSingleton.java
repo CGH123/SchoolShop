@@ -18,9 +18,10 @@ import retrofit2.adapter.rxjava.Result;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
-import schoolshop.cgh.com.schoolshop.common.User;
+import schoolshop.cgh.com.schoolshop.common.User1;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.Person;
+import schoolshop.cgh.com.schoolshop.common.entity.User;
 import schoolshop.cgh.com.schoolshop.common.utils.RxUtils;
 
 /**
@@ -82,18 +83,18 @@ public class RetrofitSingleton {
      * 下面为对与服务器交互的数据进行线程调度
      */
 
-    public Observable<User> fetchUser() {
+    public Observable<User1> fetchUser() {
         return sApiService.mUserAPI()
                 .flatMap(userAPI -> Observable.from(userAPI))
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
     public Observable<Result<Void>> postUser() {
-        return sApiService.mUserAPI1(new User("300" , "chenguagnhui"))
+        return sApiService.mUserAPI1(new User1("300" , "chenguagnhui"))
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
-    public Observable<User> postPicture(List<MultipartBody.Part> parts) {
+    public Observable<User1> postPicture(List<MultipartBody.Part> parts) {
         return sApiService.uploadMemberIcon(parts)
                 .flatMap(userList -> Observable.from(userList))
                 .compose(RxUtils.rxSchedulerHelper());
@@ -101,6 +102,12 @@ public class RetrofitSingleton {
 
     public Observable<GoodDetail> getGoodList(int offset , int limit , boolean goodDone) {
         return sApiService.getGoodList(offset , limit , goodDone)
+                .flatMap(goodDetails -> Observable.from(goodDetails))
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<GoodDetail> getGoodKindList(int offset , int limit , int kind , boolean goodDone){
+        return sApiService.getGoodKindList(offset , limit , kind , goodDone)
                 .flatMap(goodDetails -> Observable.from(goodDetails))
                 .compose(RxUtils.rxSchedulerHelper());
     }
@@ -113,6 +120,11 @@ public class RetrofitSingleton {
 
     public Observable<Person> getPersonInfo(int personId){
         return sApiService.getPersonInfo(personId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Person> postRegisterPerson(User user, Person person , List<MultipartBody.Part> parts){
+        return sApiService.postRegisterUser(user, person , parts)
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
