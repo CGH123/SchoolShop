@@ -23,7 +23,7 @@
                 android:layout_height="80dp">
 
                 <com.sackcentury.shinebuttonlib.ShineButton
-                    android:id="@+id/shop_shineButton"
+                    android:id="@+id/shop_upVote"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_centerInParent="true"
@@ -32,6 +32,18 @@
                     app:siShape="@raw/like"
                     app:allow_random_color="false"
                     android:layout_alignTop="@+id/shop_tradeName"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="25dp" />
+
+                <com.sackcentury.shinebuttonlib.ShineButton
+                    android:id="@+id/shop_favorite"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:btn_color="@android:color/darker_gray"
+                    app:btn_fill_color="#FF6666"
+                    app:siShape="@raw/like"
+                    app:allow_random_color="false"
+                    android:layout_alignBottom="@+id/shop_remained"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="25dp" />
 
@@ -135,6 +147,7 @@
                     android:id="@+id/shop_img1"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
+                    android:layout_margin="10dp"
                     fresco:placeholderImageScaleType="centerInside" />
                 <View
                     android:layout_width="match_parent"
@@ -144,6 +157,7 @@
                     android:id="@+id/shop_img2"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
+                    android:layout_margin="10dp"
                     fresco:placeholderImageScaleType="centerInside" />
 
                 <View
@@ -154,6 +168,7 @@
                     android:id="@+id/shop_img3"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
+                    android:layout_margin="10dp"
                     fresco:placeholderImageScaleType="centerInside" />
 
                 <View
@@ -164,6 +179,7 @@
                     android:id="@+id/shop_img4"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
+                    android:layout_margin="10dp"
                     fresco:placeholderImageScaleType="centerInside" />
 
                 <View
@@ -174,6 +190,7 @@
                     android:id="@+id/shop_img5"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
+                    android:layout_margin="10dp"
                     fresco:placeholderImageScaleType="centerInside" />
 
                 <View
@@ -184,6 +201,7 @@
                     android:id="@+id/shop_img6"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
+                    android:layout_margin="10dp"
                     fresco:placeholderImageScaleType="centerInside" />
 
                 <View

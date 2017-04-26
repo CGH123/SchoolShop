@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Good implements Serializable{
+public class Good implements Serializable {
     @SerializedName("goodId")
     private Integer goodId;
 
@@ -45,30 +45,51 @@ public class Good implements Serializable{
     @SerializedName("goodDone")
     private Boolean goodDone;
 
-    public Good(){
-    	
-    }
-    
-    public Good(Integer goodId, Integer personId, String goodName, Integer goodNum, Long goodPrice,
-			Long goodOriginalPrice, Date goodTime, String goodDetail, Integer goodViews, Integer goodUpvote,
-			String goodImagelist, Integer goodKind, Boolean goodDone) {
-		super();
-		this.goodId = goodId;
-		this.personId = personId;
-		this.goodName = goodName;
-		this.goodNum = goodNum;
-		this.goodPrice = goodPrice;
-		this.goodOriginalPrice = goodOriginalPrice;
-		this.goodTime = goodTime;
-		this.goodDetail = goodDetail;
-		this.goodViews = goodViews;
-		this.goodUpvote = goodUpvote;
-		this.goodImagelist = goodImagelist;
-		this.goodKind = goodKind;
-		this.goodDone = goodDone;
-	}
+    public Good() {
 
-	public Integer getGoodId() {
+    }
+
+    public Good(Integer goodId){
+        this.goodId = goodId;
+    }
+
+    public Good(Integer goodId, Integer personId, String goodName, Integer goodNum, Long goodPrice,
+                Long goodOriginalPrice, Date goodTime, String goodDetail, String goodImagelist, Integer goodKind) {
+        this.goodId = goodId;
+        this.personId = personId;
+        this.goodName = goodName;
+        this.goodNum = goodNum;
+        this.goodPrice = goodPrice;
+        this.goodOriginalPrice = goodOriginalPrice;
+        this.goodTime = goodTime;
+        this.goodDetail = goodDetail;
+        this.goodViews = 0;
+        this.goodUpvote = 0;
+        this.goodImagelist = goodImagelist;
+        this.goodKind = goodKind;
+        this.goodDone = false;
+    }
+
+    public Good(Integer goodId, Integer personId, String goodName, Integer goodNum, Long goodPrice,
+                Long goodOriginalPrice, Date goodTime, String goodDetail, Integer goodViews, Integer goodUpvote,
+                String goodImagelist, Integer goodKind, Boolean goodDone) {
+        super();
+        this.goodId = goodId;
+        this.personId = personId;
+        this.goodName = goodName;
+        this.goodNum = goodNum;
+        this.goodPrice = goodPrice;
+        this.goodOriginalPrice = goodOriginalPrice;
+        this.goodTime = goodTime;
+        this.goodDetail = goodDetail;
+        this.goodViews = goodViews;
+        this.goodUpvote = goodUpvote;
+        this.goodImagelist = goodImagelist;
+        this.goodKind = goodKind;
+        this.goodDone = goodDone;
+    }
+
+    public Integer getGoodId() {
         return goodId;
     }
 

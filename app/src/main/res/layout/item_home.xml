@@ -170,10 +170,11 @@
 
                 <TextView
                     android:id="@+id/shop_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
                     android:layout_below="@id/linearLayout"
-                    android:text="备注备注备注备注备注备注备注备注备注备注备注"
+                    android:layout_margin="5dp"
+                    android:text="备注备注备注备注备注注备注备注"
                     android:textSize="13dp" />
 
                 <View
@@ -228,6 +229,16 @@
                     android:src="@android:color/darker_gray"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:id="@+id/shop_upVote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="9dp"
+                    android:layout_toStartOf="@+id/shop_shineButton"
+                    android:text="点赞量:18"
+                    android:textSize="12dp"  />
 
 
             </RelativeLayout>

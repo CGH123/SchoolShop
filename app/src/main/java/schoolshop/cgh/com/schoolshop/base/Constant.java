@@ -1,11 +1,18 @@
 package schoolshop.cgh.com.schoolshop.base;
 
+import schoolshop.cgh.com.schoolshop.common.entity.Person;
+
 /**
  * Created by HUI on 2017-04-13.
  * 常量类
  */
 
 public class Constant {
+
+    /**
+     * 当前账号的person类
+     */
+    public static Person PERSON;
 
     /**
      * 当前商品类型
@@ -42,5 +49,19 @@ public class Constant {
      */
     public static final int Kind_Other = 6;
 
+    /**
+     * 发布中
+     */
+    public static final int TYPE_Selling = 1;
+
+    /**
+     * 已售出
+     */
+    public static final int TYPE_Selled = 2;
+
+    /**
+     * 已购买
+     */
+    public static final int TYPE_Buy = 3;
 
 }

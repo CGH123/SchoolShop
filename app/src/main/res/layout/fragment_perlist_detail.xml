@@ -53,20 +53,20 @@
                 android:id="@+id/per_detail_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="10dp"
-                android:text="康佳电风扇台式家用专业山康佳电风扇台式家用专业山学习学习"
+                android:text="康佳电风扇康佳电风扇"
                 android:textSize="15sp"
-                android:layout_above="@+id/per_detail_money"
+                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp" />
+                android:layout_marginTop="45dp" />
 
             <TextView
                 android:id="@+id/per_detail_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_alignParentBottom="true"
-                android:layout_alignStart="@+id/per_detail_info"
                 android:layout_marginBottom="26dp"
                 android:text="$100元"
                 android:textSize="13sp" />

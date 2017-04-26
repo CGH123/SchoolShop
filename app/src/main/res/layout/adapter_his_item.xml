@@ -1,105 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="2dp"
     android:layout_width="match_parent"
     android:layout_height="145dp">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/divider" />
 
     <RelativeLayout
         android:id="@+id/his_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="140dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/his_images"
             android:layout_width="100dp"
-            android:layout_height="70dp"
-            fresco:placeholderImageScaleType="fitXY"
-            fresco:placeholderImage="@mipmap/ic_launcher"
-            android:id="@+id/simpleDraweeView"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="17dp" />
+            android:layout_marginStart="17dp"
+            fresco:placeholderImage="@mipmap/ic_launcher"
+            fresco:placeholderImageScaleType="fitXY" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/his_name"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/his_images"
             android:layout_marginStart="17dp"
-            android:textSize="13sp"
-            android:text="一锅个泡面"
-            android:layout_alignTop="@+id/simpleDraweeView"
-            android:layout_toEndOf="@+id/simpleDraweeView" />
+            android:layout_toEndOf="@+id/his_images"
+            android:text="一锅个泡面一锅个泡面个泡个泡个泡"
+            android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/his_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView3"
-            android:layout_below="@+id/textView3"
-            android:layout_marginTop="10dp"
-            android:textSize="12sp"
-            android:text="$15元" />
+            android:layout_alignStart="@+id/his_name"
+            android:layout_below="@+id/his_name"
+            android:layout_marginTop="45dp"
+            android:text="$15元"
+            android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/his_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/textView3"
+            android:layout_alignTop="@+id/his_price"
             android:layout_marginEnd="21dp"
+            android:text="已确认"
             android:textColor="@color/green"
-            android:textSize="13sp"
-            android:text="已确认" />
+            android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/his_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
+            android:layout_alignStart="@+id/his_state"
+            android:layout_alignTop="@+id/his_name"
             android:text="3月2号"
-            android:layout_alignTop="@+id/textView5"
-            android:layout_alignStart="@+id/textView6" />
+            android:textSize="13sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="9dp"
+            fresco:srcCompat="@mipmap/ic_go_dark" />
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@color/divider" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/shape"
-            android:textColor="@color/orange"
-            android:text="评价"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/button2" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:background="@drawable/shape"
-            android:textColor="@color/green"
-            android:text="联系卖家"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="7dp"
-            android:layout_alignParentEnd="true" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

@@ -1,6 +1,7 @@
 package schoolshop.cgh.com.schoolshop.common.utils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -43,6 +44,29 @@ public class ImageUtils {
         builder.addFormDataPart("imgfile", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
         List<MultipartBody.Part> parts = builder.build().parts();
         return parts;
+    }
+
+    /**
+     * 设置图片路径的规格化
+     */
+    public static String listToString(List<String> list){
+        String result = "";
+        for(String e : list){
+            result += e + ";";
+        }
+        return result;
+    }
+
+    /**
+     * 设置图片路径的规格化
+     */
+    public static List<String> stringToList(String image){
+        String[] imageList = image.trim().split(";");
+        List<String> list = new ArrayList<>();
+        for(String e : imageList){
+            list.add(e);
+        }
+        return list;
     }
 
 }

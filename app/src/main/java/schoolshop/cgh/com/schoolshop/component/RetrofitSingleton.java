@@ -6,6 +6,9 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -19,9 +22,11 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import schoolshop.cgh.com.schoolshop.common.User1;
+import schoolshop.cgh.com.schoolshop.common.entity.Good;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.Person;
 import schoolshop.cgh.com.schoolshop.common.entity.User;
+import schoolshop.cgh.com.schoolshop.common.entity.UserDetail;
 import schoolshop.cgh.com.schoolshop.common.utils.RxUtils;
 
 /**
@@ -63,6 +68,11 @@ public class RetrofitSingleton {
                 .registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
                     public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                         return new Date(json.getAsJsonPrimitive().getAsLong());
+                    }
+                })
+                .registerTypeAdapter(Date.class, new JsonSerializer<Date>() {
+                    public JsonElement serialize(Date src, Type arg1, JsonSerializationContext arg2) {
+                        return new JsonPrimitive(src.getTime());
                     }
                 })
                 .create();
@@ -123,8 +133,43 @@ public class RetrofitSingleton {
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
-    public Observable<Person> postRegisterPerson(User user, Person person , List<MultipartBody.Part> parts){
-        return sApiService.postRegisterUser(user, person , parts)
+    public Observable<UserDetail> postRegisterPerson(UserDetail userDetail){
+        return sApiService.postRegisterUser(userDetail)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Person> postRegisterPerson(int personId , List<MultipartBody.Part> parts){
+        return sApiService.postRegisterIcon(personId , parts)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Person> postLoginPerson(User user){
+        return sApiService.postLoginUser(user)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<List<GoodDetail>> getSellingList(int personId){
+        return sApiService.getSellingList(personId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<List<GoodDetail>> getSelledList(int personId){
+        return sApiService.getSelledList(personId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<List<GoodDetail>> getBuyList(int personId){
+        return sApiService.getBuyList(personId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Good> postSell(Good good){
+        return sApiService.postSell(good)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Good> postSellImage(int goodId , List<MultipartBody.Part> partList){
+        return sApiService.postSellImage(goodId , partList)
                 .compose(RxUtils.rxSchedulerHelper());
     }
 

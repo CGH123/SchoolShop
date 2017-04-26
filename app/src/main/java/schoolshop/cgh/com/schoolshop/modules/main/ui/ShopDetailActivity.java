@@ -35,8 +35,10 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
     SimpleDraweeView icon_sex;
     @BindView(R.id.icon_info)
     TextView icon_info;
-    @BindView(R.id.shop_shineButton)
-    ShineButton shop_shineButton;
+    @BindView(R.id.shop_upVote)
+    ShineButton shop_upVote;
+    @BindView(R.id.shop_favorite)
+    ShineButton shop_favorite;
     @BindView(R.id.shop_tradeName)
     TextView shop_tradeName;
     @BindView(R.id.shop_price)
@@ -100,17 +102,52 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
         shop_pageView.setText("浏览量：" + goodDetail.getGoodViews());
         shop_detail_time.setText(TimeUtils.getDiff(goodDetail.getGoodTime()));
         shop_detail.setText("  " +goodDetail.getGoodDetail());
-        shop_img1.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
-        shop_img2.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
-        shop_img3.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
-        shop_img4.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
-        shop_img5.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
-        shop_img6.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
+
+        //对图片进行处理
+        String[] imagePath = goodDetail.getGoodImagelist().split(";");
+        switch (imagePath.length){
+            case 0:
+                break;
+            case 1:
+                shop_img1.setImageURI(Uri.parse(imagePath[0]));
+                break;
+            case 2:
+                shop_img1.setImageURI(Uri.parse(imagePath[0]));
+                shop_img2.setImageURI(Uri.parse(imagePath[1]));
+                break;
+            case 3:
+                shop_img1.setImageURI(Uri.parse(imagePath[0]));
+                shop_img2.setImageURI(Uri.parse(imagePath[1]));
+                shop_img3.setImageURI(Uri.parse(imagePath[2]));
+                break;
+            case 4:
+                shop_img1.setImageURI(Uri.parse(imagePath[0]));
+                shop_img2.setImageURI(Uri.parse(imagePath[1]));
+                shop_img3.setImageURI(Uri.parse(imagePath[2]));
+                shop_img4.setImageURI(Uri.parse(imagePath[3]));
+                break;
+            case 5:
+                shop_img1.setImageURI(Uri.parse(imagePath[0]));
+                shop_img2.setImageURI(Uri.parse(imagePath[1]));
+                shop_img3.setImageURI(Uri.parse(imagePath[2]));
+                shop_img4.setImageURI(Uri.parse(imagePath[3]));
+                shop_img5.setImageURI(Uri.parse(imagePath[4]));
+                break;
+            case 6:
+                shop_img1.setImageURI(Uri.parse(imagePath[0]));
+                shop_img2.setImageURI(Uri.parse(imagePath[1]));
+                shop_img3.setImageURI(Uri.parse(imagePath[2]));
+                shop_img4.setImageURI(Uri.parse(imagePath[3]));
+                shop_img5.setImageURI(Uri.parse(imagePath[4]));
+                shop_img6.setImageURI(Uri.parse(imagePath[5]));
+                break;
+        }
 
         shop_original_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         icon_skip.setVisibility(View.VISIBLE);
         person_layout.setOnClickListener(this);
         shop_group.setOnCheckedChangeListener(this);
+
     }
 
     @Override

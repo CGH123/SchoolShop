@@ -22,7 +22,8 @@
                 android:layout_width="40dp"
                 android:layout_height="21dp"
                 android:layout_marginStart="8dp"
-                android:text="账号"
+                android:textSize="17sp"
+                android:text="手机"
                 android:layout_gravity="left|center_vertical" />
             <TextView
                 android:id="@+id/contry_sn"
@@ -50,10 +51,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
+                android:inputType="number"
                 android:maxLength="20"
                 android:paddingLeft="55dp"
-                android:paddingRight="60dp">
-            </EditText>
+                android:paddingRight="60dp"/>
         </FrameLayout>
         <FrameLayout
             android:id="@+id/usercode_layout"
@@ -76,6 +77,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:text="密码"
+
+                android:textSize="17sp"
                 android:layout_gravity="left|center_vertical" />
             <Button
                 android:id="@+id/bt_pwd_eye"

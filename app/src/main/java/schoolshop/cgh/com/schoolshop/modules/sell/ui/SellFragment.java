@@ -1,6 +1,7 @@
 package schoolshop.cgh.com.schoolshop.modules.sell.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -24,11 +26,22 @@ import com.foamtrace.photopicker.intent.PhotoPreviewIntent;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import co.lujun.androidtagview.TagContainerLayout;
+import co.lujun.androidtagview.TagView;
+import okhttp3.MultipartBody;
+import rx.Observable;
+import rx.Subscriber;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.base.BaseFragment;
+import schoolshop.cgh.com.schoolshop.base.Constant;
+import schoolshop.cgh.com.schoolshop.common.entity.Good;
+import schoolshop.cgh.com.schoolshop.common.utils.ImageUtils;
+import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
 import schoolshop.cgh.com.schoolshop.modules.main.ui.MainActivity;
 
 import static android.app.Activity.RESULT_OK;
@@ -37,7 +50,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by HUI on 2017-04-13.
  */
 
-public class SellFragment extends BaseFragment implements AdapterView.OnItemClickListener , View.OnClickListener{
+public class SellFragment extends BaseFragment implements AdapterView.OnItemClickListener , View.OnClickListener , TagView.OnTagClickListener{
     private static final int REQUEST_CAMERA_CODE = 10;
     private static final int REQUEST_PREVIEW_CODE = 20;
     private ArrayList<String> imagePaths = new ArrayList<>();
@@ -45,15 +58,38 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
     private String TAG =MainActivity.class.getSimpleName();
     private GridAdapter gridAdapter;
 
+    @BindView(R.id.sell_tag)
+    TagContainerLayout sell_tag;
     @BindView(R.id.gridView)
     GridView gridView;
     @BindView(R.id.sell_radioButton)
     RadioButton radioButton;
+    @BindView(R.id.sell_name)
+    EditText sell_name;
+    @BindView(R.id.sell_number)
+    EditText sell_number;
+    @BindView(R.id.sell_price)
+    EditText sell_price;
+    @BindView(R.id.sell_cost_price)
+    EditText sell_cost_price;
+    @BindView(R.id.et_context)
+    EditText et_context;
+
+    private List<String> tags;
+    private String good_name;
+    private Integer good_num;
+    private String good_detail;
+    private Long good_price;
+    private Long good_original_price;
+    private Date good_time;
+    private Integer good_kind;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+        initGrid();
+        initTag();
     }
 
     @Nullable
@@ -62,6 +98,112 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
         View view = inflater.inflate(R.layout.activity_sell , container , false);
         ButterKnife.bind(this , view);
         return view;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        //状态判断
+        if(Constant.PERSON == null){
+            Toast.makeText(getActivity() , "请先登录" , Toast.LENGTH_SHORT).show();
+            return;
+        }
+        switch (v.getId()){
+            case R.id.sell_radioButton:
+                //TODO 要进行对数据的验证才能点击上传的按钮
+                if(!sellInit())  return;
+                Good good = new Good(0, Constant.PERSON.getPersonId(), good_name, good_num, good_price,
+                        good_original_price , new Date(), good_detail, ImageUtils.listToString(imagePaths), good_kind);
+
+                fetchSell(good)
+                        .subscribe(new Subscriber<Good>() {
+                            @Override
+                            public void onCompleted() {
+                                Toast.makeText(getActivity() , "发布成功" , Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("error" , e.toString());
+                            }
+
+                            @Override
+                            public void onNext(Good good) {
+                                if(good.getGoodId() == 0){
+                                    Toast.makeText(getActivity() , "发布失败" , Toast.LENGTH_SHORT).show();
+                                }else{
+                                    fetchSellImage(good.getGoodId() , ImageUtils.getPartList(imagePaths))
+                                            .subscribe(good1 -> {
+                                                Toast.makeText(getActivity() , "图片上传成功" , Toast.LENGTH_SHORT).show();
+                                            });
+                                }
+                            }
+                        });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void initTag(){
+        tags = new ArrayList<>();
+        tags.add("书籍");
+        tags.add("数码");
+        tags.add("服饰");
+        tags.add("日用");
+        tags.add("其他");
+        sell_tag.setTags(tags , colorInit(-1));
+        sell_tag.setOnTagClickListener(this);
+    }
+
+    private void initGrid(){
+        int cols = getResources().getDisplayMetrics().widthPixels / getResources().getDisplayMetrics().densityDpi;
+        cols = cols < 3 ? 3 : cols;
+        gridView.setNumColumns(cols);
+        gridView.setOnItemClickListener(this);
+        gridImageList.addAll(imagePaths);
+        gridImageList.add("000000");
+        gridAdapter = new GridAdapter(gridImageList);
+        gridView.setAdapter(gridAdapter);
+        radioButton.setOnClickListener(this);
+    }
+
+    private boolean sellInit(){
+        String good_num_str , good_price_str , good_original_price_str;
+        good_name = sell_name.getText().toString();
+        good_num_str = sell_number.getText().toString();
+        good_detail = et_context.getText().toString();
+        good_price_str = sell_price.getText().toString();
+        good_original_price_str = sell_cost_price.getText().toString();
+        if(good_name == null || good_name.equals("")){
+            Toast.makeText(getActivity() , "商品不能为空" , Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(good_num_str == null || good_num_str.equals("")){
+            Toast.makeText(getActivity() , "商品数量不能为空" , Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(good_price_str == null || good_price_str.equals("")){
+            Toast.makeText(getActivity() , "价钱不能为空" , Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(imagePaths.size() == 0){
+            Toast.makeText(getActivity() , "商品照片不能为空" , Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(good_kind == 0){
+            Toast.makeText(getActivity() , "商品类型不能为空" , Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(good_original_price_str == null || good_original_price_str.equals("")){
+            good_original_price = 0L;
+        }else{
+            good_original_price = Long.valueOf(good_original_price_str);
+        }
+        good_price = Long.valueOf(good_price_str);
+        good_num = Integer.valueOf(good_num_str);
+        return true;
     }
 
     @Override
@@ -80,6 +222,7 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
                     ArrayList<String> ListExtra = data.getStringArrayListExtra(PhotoPreviewActivity.EXTRA_RESULT);
                     Log.d(TAG, "ListExtra: " + "ListExtra = [" + ListExtra.size());
                     loadAdpater(ListExtra);
+
                     break;
             }
         }
@@ -104,27 +247,19 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.sell_radioButton:
-                //TODO 要进行对数据的验证才能点击上传的按钮
-                Toast.makeText(getActivity() , "i am selling" , Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                break;
-        }
+    public void onTagClick(int position, String text) {
+        sell_tag.setTags(tags , colorInit(position));
+        good_kind = position + 1;
     }
 
-    private void init(){
-        int cols = getResources().getDisplayMetrics().widthPixels / getResources().getDisplayMetrics().densityDpi;
-        cols = cols < 3 ? 3 : cols;
-        gridView.setNumColumns(cols);
-        gridView.setOnItemClickListener(this);
-        gridImageList.addAll(imagePaths);
-        gridImageList.add("000000");
-        gridAdapter = new GridAdapter(gridImageList);
-        gridView.setAdapter(gridAdapter);
-        radioButton.setOnClickListener(this);
+    @Override
+    public void onTagLongClick(int position, String text) {
+        //标签的长按事件
+    }
+
+    @Override
+    public void onTagCrossClick(int position) {
+        //标签的cross事件
     }
 
     private void loadAdpater(ArrayList<String> paths){
@@ -207,5 +342,56 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
         class ViewHolder {
             ImageView image;
         }
+    }
+
+    /**
+     * 网络部分
+     */
+    private Observable<Good> fetchSell(Good good){
+        return RetrofitSingleton.getInstance()
+                .postSell(good)
+                .compose(this.bindToLifecycle());
+    }
+
+    private Observable<Good> fetchSellImage(Integer goodId , List<MultipartBody.Part> partList){
+        return RetrofitSingleton.getInstance()
+                .postSellImage(goodId , partList)
+                .compose(this.bindToLifecycle());
+    }
+
+    /**
+     * 初始化颜色
+     */
+    private ArrayList<int[]> colorInit(int position){
+        ArrayList<int[]> colors = new ArrayList<>();
+        int[] color1 = {Color.CYAN, Color.WHITE, Color.WHITE};
+        int[] color2 = {Color.MAGENTA, Color.WHITE, Color.WHITE};
+        switch (position){
+            case -1:
+                colors.add(color1);colors.add(color1);colors.add(color1);
+                colors.add(color1);colors.add(color1);
+                break;
+            case 0:
+                colors.add(color2);colors.add(color1);colors.add(color1);
+                colors.add(color1);colors.add(color1);
+                break;
+            case 1:
+                colors.add(color1);colors.add(color2);colors.add(color1);
+                colors.add(color1);colors.add(color1);
+                break;
+            case 2:
+                colors.add(color1);colors.add(color1);colors.add(color2);
+                colors.add(color1);colors.add(color1);
+                break;
+            case 3:
+                colors.add(color1);colors.add(color1);colors.add(color1);
+                colors.add(color2);colors.add(color1);
+                break;
+            case 4:
+                colors.add(color1);colors.add(color1);colors.add(color1);
+                colors.add(color1);colors.add(color2);
+                break;
+        }
+        return colors;
     }
 }

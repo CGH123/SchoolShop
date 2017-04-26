@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:id="@+id/layout_icon"
-        android:background="@color/green"
+        android:background="@color/gray_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -43,9 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:textColor="@color/primary_text"
                 android:textSize="16sp"
-                tools:text="Maple" />
+                tools:text="点击登录" />
 
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -53,7 +52,6 @@
                 android:layout_width="17sp"
                 android:layout_height="20sp"
                 android:layout_marginStart="5dp"
-                fresco:placeholderImage="@mipmap/man"
                 fresco:placeholderImageScaleType="fitCenter"
                 android:layout_centerVertical="true" />
 
@@ -62,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:visibility="invisible"
                 android:textSize="12sp"
                 tools:text="备注信息" />
 

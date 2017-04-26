@@ -160,8 +160,10 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
         TextView shop_detail;
         @BindView(R.id.shop_pageView)
         TextView shop_pageView;
+        @BindView(R.id.shop_upVote)
+        TextView shop_upVote;
 
-        //设置Layout中的点击事件
+        //设置Layout中的点击事件 shop_upVote
         @BindView(R.id.shop_layout)
         CardView layout;
 
@@ -182,11 +184,32 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
                 shop_sex.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + R.mipmap.woman));
             }
             shop_time.setText(TimeUtils.getDiff(goodDetail.getGoodTime()));
-            shop_deta1.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
-            shop_deta2.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
-            shop_deta3.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
             shop_detail.setText(goodDetail.getGoodDetail());
             shop_pageView.setText("浏览量:" + goodDetail.getGoodViews());
+            shop_upVote.setText("点赞量:" + goodDetail.getGoodUpvote());
+
+            //下面对进行格式化
+            String[] imagePath = goodDetail.getGoodImagelist().split(";");
+            switch (imagePath.length){
+                case 0:
+                    break;
+                case 1:
+                    shop_deta1.setImageURI(Uri.parse(imagePath[0]));
+                    break;
+                case 2:
+                    shop_deta1.setImageURI(Uri.parse(imagePath[0]));
+                    shop_deta2.setImageURI(Uri.parse(imagePath[1]));
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    shop_deta1.setImageURI(Uri.parse(imagePath[0]));
+                    shop_deta2.setImageURI(Uri.parse(imagePath[1]));
+                    shop_deta3.setImageURI(Uri.parse(imagePath[2]));
+                    break;
+
+            }
 
             //绑定空间中相关的监听器
             shop_icon.setOnClickListener(this);

@@ -17,16 +17,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.MultipartBody;
-import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
 import rx.Subscriber;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.base.BaseFragment;
 import schoolshop.cgh.com.schoolshop.base.Constant;
-import schoolshop.cgh.com.schoolshop.common.User1;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
-import schoolshop.cgh.com.schoolshop.common.utils.ImageUtils;
 import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
 import schoolshop.cgh.com.schoolshop.modules.main.adapter.HomeShopAdapter;
 
@@ -152,32 +148,6 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
             public void run() {
                 //TODO 网络部分的实现
                 initRecycleView(0 , 20 , good_kind , false , true);
-
-                String filePath = "/storage/emulated/0/Pictures/JPEG_20170411_055724_.jpg";
-                String filePath2 = "/storage/emulated/0/Pictures/JPEG_20170411_055701_.jpg";
-                List<String> list = new ArrayList<String>();
-                list.add(filePath);
-                list.add(filePath2);
-                List<MultipartBody.Part> parts = ImageUtils.getPartList(list);
-                fetchDataByNetWork2(parts)
-                        .subscribe(new Subscriber<User1>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.e("error" , "finished");
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e("error" , e.toString());
-                            }
-
-                            @Override
-                            public void onNext(User1 user1) {
-                                Log.e("error:UserID=" , user1.getId());
-                            }
-                        });
-
-
                 mRefreshLayout.setRefreshing(false);
             }
         }, 500);
@@ -213,25 +183,6 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
     }
 
     //完成生命周期同步，防止RxJava内存泄漏
-
-    private Observable<User1> fetchDataByNetWork() {
-        return RetrofitSingleton.getInstance()
-                .fetchUser()
-                .compose(this.bindToLifecycle());
-    }
-
-    private Observable<Result<Void>> fetchDataByNetWork1() {
-        return RetrofitSingleton.getInstance()
-                .postUser()
-                .compose(this.bindToLifecycle());
-    }
-
-    private Observable<User1> fetchDataByNetWork2(List<MultipartBody.Part> parts) {
-        return RetrofitSingleton.getInstance()
-                .postPicture(parts)
-                .compose(this.bindToLifecycle());
-    }
-
     private Observable<GoodDetail> fetchDataByGoodKind(int offset , int limit , int kind , boolean goodDone){
         return RetrofitSingleton.getInstance()
                 .getGoodKindList(offset , limit , kind , goodDone)

@@ -76,4 +76,6 @@ dependencies {
     //图片空间框架
     compile 'com.zfdang.multiple-images-selector:multiple-images-selector:1.1.3'
     compile 'com.foamtrace:photopicker:1.0'
+    //tagView的使用
+    compile 'co.lujun:androidtagview:1.1.1'
 }

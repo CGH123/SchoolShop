@@ -29,8 +29,10 @@ import rx.Observable;
 import rx.Subscriber;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.base.BaseActivity;
+import schoolshop.cgh.com.schoolshop.base.Constant;
 import schoolshop.cgh.com.schoolshop.common.entity.Person;
 import schoolshop.cgh.com.schoolshop.common.entity.User;
+import schoolshop.cgh.com.schoolshop.common.entity.UserDetail;
 import schoolshop.cgh.com.schoolshop.common.utils.ImageUtils;
 import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
 
@@ -99,27 +101,34 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     User user = new User(user_account , user_password);
                     Person person = new Person(user_name , user_sex);
                     partList = ImageUtils.getPartList(imagePath);
+                    UserDetail userDetail = new UserDetail(user , person);
+                    //进行注册
+                    fetchRegister(userDetail)
+                            .subscribe(mUserDetail1 -> {
+                                if(mUserDetail1.getPersonId() == 0){
+                                    Toast.makeText(getApplicationContext() , "账号已被注册" , Toast.LENGTH_SHORT).show();
+                                }else{
+                                    int personId = mUserDetail1.getPersonId();
+                                    //把个人头像图片给上传
+                                    fetchRegister(personId , partList)
+                                            .subscribe(new Subscriber<Person>() {
+                                                @Override
+                                                public void onCompleted() {
+                                                    Toast.makeText(getApplicationContext() , "注册成功" , Toast.LENGTH_SHORT).show();
+                                                    //TODO 跳转到相关的界面之中
+                                                    finish();
+                                                }
 
-                    fetchRegister(user , person , partList)
-                            .subscribe(new Subscriber<Person>() {
-                                @Override
-                                public void onCompleted() {
-                                    Log.e("error" , "register finished");
-                                }
+                                                @Override
+                                                public void onError(Throwable e) {
+                                                    Log.e("error" , e.toString());
+                                                }
 
-                                @Override
-                                public void onError(Throwable e) {
-                                    Log.e("error" , e.toString());
-                                }
-
-                                @Override
-                                public void onNext(Person person) {
-                                    if(person.getPersonId() == 0){
-                                        Toast.makeText(getApplicationContext() , "账号已被注册" , Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        //TODO 进行对个人信息持久化操作的工作
-
-                                    }
+                                                @Override
+                                                public void onNext(Person person) {
+                                                    Constant.PERSON = person;
+                                                }
+                                            });
                                 }
                             });
                 }
@@ -191,15 +200,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         user_account  = userAccount.getText().toString();
         user_password = password.getText().toString();
         user_name = username.getText().toString();
-        if(user_account == null || user_account == ""){
+        if(user_account == null || user_account.equals("")){
             Toast.makeText(this , "账号不能为空" , Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(user_password == null || user_password == ""){
+        if(user_password == null || user_password.equals("")){
             Toast.makeText(this , "密码不能为空" , Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(user_name == null || user_name == ""){
+        if(user_name == null || user_name.equals("")){
             Toast.makeText(this , "昵称不能为空" , Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -214,10 +223,47 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     /**
      * 网络部分的内容
      */
-    public Observable<Person> fetchRegister(User user , Person person , List<MultipartBody.Part> partList){
+    public Observable<UserDetail> fetchRegister(UserDetail userDetail){
         return RetrofitSingleton.getInstance()
-                .postRegisterPerson(user , person , partList)
+                .postRegisterPerson(userDetail)
                 .compose(this.bindToLifecycle());
     }
+
+    public Observable<Person> fetchRegister(int personId , List<MultipartBody.Part> partList){
+        return RetrofitSingleton.getInstance()
+                .postRegisterPerson(personId , partList)
+                .compose(this.bindToLifecycle());
+    }
+
+    /*fetchRegister(userDetail)
+                            .subscribe(new Subscriber<UserDetail>() {
+                                @Override
+                                public void onCompleted() {
+                                    Log.e("error" , "register finished");
+                                    if(Constant.PERSONID != -1){
+                                        fetchRegister(Constant.PERSONID , partList)
+                                                .subscribe(person -> {
+                                                    Log.e("error" , "server image =" + person.getPersonIcon());
+                                                });
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.e("error" , e.toString());
+                                }
+
+                                @Override
+                                public void onNext(UserDetail person) {
+                                    if(person.getPersonId() == 0){
+                                        Toast.makeText(getApplicationContext() , "账号已被注册" , Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        //TODO 进行对个人信息持久化操作的工作
+                                        Constant.PERSONID = person.getPersonId();
+                                        Toast.makeText(getApplicationContext() , "注册成功" , Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });*/
+
 
 }
