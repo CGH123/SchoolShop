@@ -59,6 +59,9 @@ public class TimeUtils {
         return mDateFormat.format(date);
     }
 
+    /**
+     * MM-dd
+     */
     @SuppressLint("SimpleDateFormat")
     public static String getMD(Date date) {
 

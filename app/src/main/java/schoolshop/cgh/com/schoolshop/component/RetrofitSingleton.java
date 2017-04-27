@@ -24,6 +24,8 @@ import rx.Observable;
 import schoolshop.cgh.com.schoolshop.common.User1;
 import schoolshop.cgh.com.schoolshop.common.entity.Good;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.entity.Order;
+import schoolshop.cgh.com.schoolshop.common.entity.OrderDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.Person;
 import schoolshop.cgh.com.schoolshop.common.entity.User;
 import schoolshop.cgh.com.schoolshop.common.entity.UserDetail;
@@ -158,8 +160,8 @@ public class RetrofitSingleton {
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
-    public Observable<List<GoodDetail>> getBuyList(int personId){
-        return sApiService.getBuyList(personId)
+    public Observable<List<GoodDetail>> getBoughtList(int personId){
+        return sApiService.getBoughtList(personId)
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
@@ -170,6 +172,42 @@ public class RetrofitSingleton {
 
     public Observable<Good> postSellImage(int goodId , List<MultipartBody.Part> partList){
         return sApiService.postSellImage(goodId , partList)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Void> getUpvote(int goodId){
+        return sApiService.getUpvote(goodId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Void> getView(int goodId){
+        return sApiService.getView(goodId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Order> getOrderNotice(int personId){
+        return sApiService.getOrderNotice(personId)
+                .flatMap(orders -> Observable.from(orders))
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<List<OrderDetail>> getOrderDetailList(int personId){
+        return sApiService.getOrderDetailList(personId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Void> postOrderState(int orderId , int state){
+        return sApiService.postOrderState(orderId , state)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<GoodDetail> getGoodDetail(int goodId){
+        return sApiService.getGoodDetail(goodId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Order> postBuy(Order order){
+        return sApiService.postOrder(order)
                 .compose(RxUtils.rxSchedulerHelper());
     }
 

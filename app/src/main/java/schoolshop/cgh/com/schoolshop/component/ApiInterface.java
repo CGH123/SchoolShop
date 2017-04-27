@@ -14,6 +14,8 @@ import rx.Observable;
 import schoolshop.cgh.com.schoolshop.common.User1;
 import schoolshop.cgh.com.schoolshop.common.entity.Good;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.entity.Order;
+import schoolshop.cgh.com.schoolshop.common.entity.OrderDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.Person;
 import schoolshop.cgh.com.schoolshop.common.entity.User;
 import schoolshop.cgh.com.schoolshop.common.entity.UserDetail;
@@ -51,6 +53,12 @@ public interface ApiInterface {
     Observable<List<GoodDetail>> getGoodKindList(@Path("offset") int offset, @Path("limit") int limit, @Path("kind") int kind, @Path("goodDone") boolean goodDone);
 
     /**
+     * 根据goodId获取商品详细信息
+     */
+    @GET("good/info/detail/{goodId}")
+    Observable<GoodDetail> getGoodDetail(@Path("goodId") int goodId);
+
+    /**
      * 获取用户销售商品列表信息
      */
     @GET("good/info/person/{personId}")
@@ -68,6 +76,18 @@ public interface ApiInterface {
     @Multipart
     @POST("good/sell/{goodId}")
     Observable<Good> postSellImage(@Path("goodId") int goodId , @Part List<MultipartBody.Part> partList);
+
+    /**
+     * 点赞量增加
+     */
+    @GET("good/info/upvote/{goodId}")
+    Observable<Void> getUpvote(@Path("goodId") int goodId);
+
+    /**
+     * 浏览量增加
+     */
+    @GET("good/info/view/{goodId}")
+    Observable<Void> getView(@Path("goodId") int goodId);
 
     /**
      * 根据personId获取Person类
@@ -109,7 +129,31 @@ public interface ApiInterface {
     /**
      * 查看我买到的商品
      */
-    @GET("order/buy/{personId}")
-    Observable<List<GoodDetail>> getBuyList(@Path("personId") int personId);
+    @GET("order/bought/{personId}")
+    Observable<List<GoodDetail>> getBoughtList(@Path("personId") int personId);
+
+    /**
+     * 检查服务器消息通知
+     */
+    @GET("order/check/{personId}")
+    Observable<List<Order>> getOrderNotice(@Path("personId") int personId);
+
+    /**
+     * 查看还没处理的订单信息
+     */
+    @GET("order/check/message/{personId}")
+    Observable<List<OrderDetail>> getOrderDetailList(@Path("personId") int personId);
+
+    /**
+     * 回应订单的状态更新
+     */
+    @POST("order/state/{orderId}/{state}")
+    Observable<Void> postOrderState(@Path("orderId") int orderId , @Path("state") int state);
+
+    /**
+     * 购买下单
+     */
+    @POST("order/buy")
+    Observable<Order> postOrder(@Body Order order);
 
 }

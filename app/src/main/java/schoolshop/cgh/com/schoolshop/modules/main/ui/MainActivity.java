@@ -51,6 +51,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
+        //轮询机制开启,暂时关闭
+        //PollingUtils.startPollingService(this, 5, PollingService.class, PollingService.ACTION);
     }
 
     private void init(){
@@ -170,4 +172,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //销毁轮询机制
+        //PollingUtils.stopPollingService(this, PollingService.class, PollingService.ACTION);
+    }
 }

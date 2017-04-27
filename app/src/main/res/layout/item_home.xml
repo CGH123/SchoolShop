@@ -27,6 +27,7 @@
             android:id="@+id/shop_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginTop="10dp"
             fresco:roundAsCircle="false"
             fresco:placeholderImageScaleType="focusCrop"
             fresco:placeholderImage="@mipmap/ic_launcher" />
@@ -44,7 +45,8 @@
             <TextView
                 android:id="@+id/shop_tradeName"
                 android:layout_width="230dp"
-                android:layout_height="45dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="2dp"
                 android:text="我有：八成的白色小绵羊，无任何毛病，48v，有意华农面交"
                 android:textSize="16sp" />
 
@@ -164,23 +166,23 @@
             <LinearLayout
                 android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="33dp"
                 android:layout_below="@id/linearLayout"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/shop_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="33dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/linearLayout"
                     android:layout_margin="5dp"
                     android:text="备注备注备注备注备注注备注备注"
                     android:textSize="13dp" />
 
-                <View
+                <!--<View
                     android:layout_width="10dp"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/shop_personName" />
+                    android:layout_below="@id/shop_personName" />-->
 
             </LinearLayout>
 
@@ -223,6 +225,8 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="23dp"
+                    app:click_animation_duration="100"
+                    app:shine_animation_duration="500"
                     app:btn_color="@android:color/darker_gray"
                     app:btn_fill_color="#FF6666"
                     app:siShape="@raw/like"

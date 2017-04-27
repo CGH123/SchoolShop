@@ -4,27 +4,44 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.widget.Button;
 
 import schoolshop.cgh.com.schoolshop.R;
+import schoolshop.cgh.com.schoolshop.common.utils.PollingUtils;
+import schoolshop.cgh.com.schoolshop.component.PollingService;
+import schoolshop.cgh.com.schoolshop.modules.main.ui.MainActivity;
 
 /**
  * Created by HUI on 2017-04-14.
  */
 
 public class TempActivity extends AppCompatActivity {
-    private TextView textView;
+    private Button button;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.temp_test);
-        textView = (TextView) findViewById(R.id.test);
-
-        Intent intent = this.getIntent();
-        Integer personId = intent.getExtras().getInt("personId");
-        String text = personId.toString();
-        textView.setText(text);
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setClass(this , MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+        //Start polling service
+        System.out.println("Start polling service...");
+        PollingUtils.startPollingService(this, 5, PollingService.class, PollingService.ACTION);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Stop polling service
+        System.out.println("Stop polling service...");
+        PollingUtils.stopPollingService(this, PollingService.class, PollingService.ACTION);
+    }
+
 }
 
     /*private void getData(int num)

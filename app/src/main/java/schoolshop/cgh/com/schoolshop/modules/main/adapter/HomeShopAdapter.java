@@ -1,7 +1,6 @@
 package schoolshop.cgh.com.schoolshop.modules.main.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -22,7 +20,6 @@ import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
 import schoolshop.cgh.com.schoolshop.common.utils.TimeUtils;
 import schoolshop.cgh.com.schoolshop.component.AnimRecyclerViewAdapter;
-import schoolshop.cgh.com.schoolshop.modules.sell.ui.TempActivity;
 
 /**
  * Created by HUI on 2017-04-13.
@@ -192,13 +189,22 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
             String[] imagePath = goodDetail.getGoodImagelist().split(";");
             switch (imagePath.length){
                 case 0:
+                    shop_deta1.setVisibility(View.INVISIBLE);
+                    shop_deta2.setVisibility(View.INVISIBLE);
+                    shop_deta3.setVisibility(View.INVISIBLE);
                     break;
                 case 1:
                     shop_deta1.setImageURI(Uri.parse(imagePath[0]));
+                    shop_deta1.setVisibility(View.VISIBLE);
+                    shop_deta2.setVisibility(View.INVISIBLE);
+                    shop_deta3.setVisibility(View.INVISIBLE);
                     break;
                 case 2:
                     shop_deta1.setImageURI(Uri.parse(imagePath[0]));
                     shop_deta2.setImageURI(Uri.parse(imagePath[1]));
+                    shop_deta1.setVisibility(View.VISIBLE);
+                    shop_deta2.setVisibility(View.VISIBLE);
+                    shop_deta3.setVisibility(View.INVISIBLE);
                     break;
                 case 3:
                 case 4:
@@ -207,6 +213,9 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
                     shop_deta1.setImageURI(Uri.parse(imagePath[0]));
                     shop_deta2.setImageURI(Uri.parse(imagePath[1]));
                     shop_deta3.setImageURI(Uri.parse(imagePath[2]));
+                    shop_deta1.setVisibility(View.VISIBLE);
+                    shop_deta2.setVisibility(View.VISIBLE);
+                    shop_deta3.setVisibility(View.VISIBLE);
                     break;
 
             }
@@ -220,12 +229,7 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.shop_icon:
-                    //Todo:留下来给intent跳转到相关的页面之中
-                    Toast.makeText(mContext , "icon has been touch" , Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.setClass(mContext, TempActivity.class);
-                    intent.putExtra("id" , "01");
-                    mContext.startActivity(intent);
+                    //通过onItemClick完成了
                     break;
             }
         }

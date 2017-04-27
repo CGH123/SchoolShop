@@ -27,8 +27,7 @@
                 android:layout_width="90dp"
                 android:layout_height="70dp"
                 fresco:placeholderImage="@mipmap/ali_pay"
-                fresco:placeholderImageScaleType="focusCrop"
-                />
+                fresco:placeholderImageScaleType="focusCrop" />
 
         </FrameLayout>
 

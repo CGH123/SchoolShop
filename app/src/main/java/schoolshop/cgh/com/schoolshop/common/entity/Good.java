@@ -53,6 +53,11 @@ public class Good implements Serializable {
         this.goodId = goodId;
     }
 
+    public Good(Integer goodId , Boolean goodDone){
+        this.goodId = goodId;
+        this.goodDone = goodDone;
+    }
+
     public Good(Integer goodId, Integer personId, String goodName, Integer goodNum, Long goodPrice,
                 Long goodOriginalPrice, Date goodTime, String goodDetail, String goodImagelist, Integer goodKind) {
         this.goodId = goodId;

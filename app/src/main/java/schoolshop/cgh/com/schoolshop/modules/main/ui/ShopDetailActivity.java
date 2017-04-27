@@ -6,21 +6,31 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.base.BaseActivity;
+import schoolshop.cgh.com.schoolshop.base.Constant;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.entity.Order;
 import schoolshop.cgh.com.schoolshop.common.utils.TimeUtils;
+import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
+import schoolshop.cgh.com.schoolshop.modules.my.ui.LoginActivity;
 
 /**
  * Created by HUI on 2017-04-15.
@@ -87,6 +97,18 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
         initView();
     }
 
+    /**
+     * 实现浏览量增加的功能
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fetchView(goodDetail.getGoodId())
+                .subscribe(aVoid -> {
+                    Log.d("success" , "浏览量增加成功");
+                });
+    }
+
     private void initView(){
         icon_icon.setImageURI(Uri.parse(goodDetail.getPersonIcon()));
         icon_name.setText(goodDetail.getPersonName());
@@ -110,21 +132,35 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
                 break;
             case 1:
                 shop_img1.setImageURI(Uri.parse(imagePath[0]));
+                shop_img2.setVisibility(View.GONE);
+                shop_img3.setVisibility(View.GONE);
+                shop_img4.setVisibility(View.GONE);
+                shop_img5.setVisibility(View.GONE);
+                shop_img6.setVisibility(View.GONE);
                 break;
             case 2:
                 shop_img1.setImageURI(Uri.parse(imagePath[0]));
                 shop_img2.setImageURI(Uri.parse(imagePath[1]));
+                shop_img3.setVisibility(View.GONE);
+                shop_img4.setVisibility(View.GONE);
+                shop_img5.setVisibility(View.GONE);
+                shop_img6.setVisibility(View.GONE);
                 break;
             case 3:
                 shop_img1.setImageURI(Uri.parse(imagePath[0]));
                 shop_img2.setImageURI(Uri.parse(imagePath[1]));
                 shop_img3.setImageURI(Uri.parse(imagePath[2]));
+                shop_img4.setVisibility(View.GONE);
+                shop_img5.setVisibility(View.GONE);
+                shop_img6.setVisibility(View.GONE);
                 break;
             case 4:
                 shop_img1.setImageURI(Uri.parse(imagePath[0]));
                 shop_img2.setImageURI(Uri.parse(imagePath[1]));
                 shop_img3.setImageURI(Uri.parse(imagePath[2]));
                 shop_img4.setImageURI(Uri.parse(imagePath[3]));
+                shop_img5.setVisibility(View.GONE);
+                shop_img6.setVisibility(View.GONE);
                 break;
             case 5:
                 shop_img1.setImageURI(Uri.parse(imagePath[0]));
@@ -132,6 +168,7 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
                 shop_img3.setImageURI(Uri.parse(imagePath[2]));
                 shop_img4.setImageURI(Uri.parse(imagePath[3]));
                 shop_img5.setImageURI(Uri.parse(imagePath[4]));
+                shop_img6.setVisibility(View.GONE);
                 break;
             case 6:
                 shop_img1.setImageURI(Uri.parse(imagePath[0]));
@@ -147,6 +184,8 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
         icon_skip.setVisibility(View.VISIBLE);
         person_layout.setOnClickListener(this);
         shop_group.setOnCheckedChangeListener(this);
+        shop_upVote.setOnClickListener(this);
+        shop_favorite.setOnClickListener(this);
 
     }
 
@@ -159,7 +198,11 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
                 intent.setClass(this, PersonPageActivity.class);
                 startActivity(intent);
                 break;
-            default:
+            case R.id.shop_favorite:
+
+                break;
+            case R.id.shop_upVote:
+
                 break;
         }
     }
@@ -172,7 +215,57 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
                 break;
             case R.id.shop_buy:
                 //TODO 立刻购买
+                if(Constant.PERSON != null) {
+                    Order order = new Order(0, goodDetail.getGoodId(), goodDetail.getPersonId(),
+                            Constant.PERSON.getPersonId(), 0, new Date());
+                    fetchOrder(order)
+                            .subscribe(new Subscriber<Order>() {
+                                @Override
+                                public void onCompleted() {
+                                    Toast.makeText(getApplicationContext() , "购买成功，等待卖家确认" , Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.e("error" , e.toString());
+                                }
+
+                                @Override
+                                public void onNext(Order order) {
+                                    if(order == null || order.getOrderId() == 0){
+                                        Toast.makeText(getApplicationContext() , "商品已购买" , Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }else{
+                    Intent intent = new Intent();
+                    intent.setClass(this , LoginActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this , "请先登录" , Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
+    }
+
+    /**
+     * 网络部分,实现服务起中的浏览量增加
+     */
+    private Observable<Void> fetchUpvote(int goodId){
+        return RetrofitSingleton.getInstance()
+                .getUpvote(goodId)
+                .compose(this.bindToLifecycle());
+    }
+
+    private Observable<Void> fetchView(int goodId){
+        return RetrofitSingleton.getInstance()
+                .getView(goodId)
+                .compose(this.bindToLifecycle());
+    }
+
+    private Observable<Order> fetchOrder(Order order){
+        return RetrofitSingleton.getInstance()
+                .postBuy(order)
+                .compose(this.bindToLifecycle());
     }
 }

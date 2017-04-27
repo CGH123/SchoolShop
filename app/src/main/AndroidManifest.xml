@@ -17,7 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.sell.ui.TempActivity"/>
+        <activity android:name=".modules.sell.ui.TempActivity">
+
+        </activity>
         <activity android:name=".modules.main.ui.ShopDetailActivity"/>
         <activity android:name=".modules.main.ui.PersonPageActivity"/>
         <activity android:name=".modules.my.ui.SelledActivity"/>
@@ -25,6 +27,7 @@
         <activity android:name=".modules.my.ui.BuyActivity"/>
         <activity android:name=".modules.my.ui.FavoriteActivity"/>
         <activity android:name=".modules.my.ui.HelpActivity"/>
+        <activity android:name=".modules.message.ui.OrderDetailActivity"/>
         <activity android:name=".modules.my.ui.LoginActivity">
 
         </activity>
@@ -39,6 +42,8 @@
         <activity android:name="com.foamtrace.photopicker.PhotoPreviewActivity"
             android:theme="@style/PhotoPickerTheme"/>
 
+        <service android:name=".component.PollingService"/>
+
     </application>
 
     <!--用户权限设置-->
@@ -47,5 +52,6 @@
     <!--the following two permissions are required if you want to take photo in selector  android:hardwareAccelerated="false"-->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
 </manifest>

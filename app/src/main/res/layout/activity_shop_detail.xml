@@ -12,9 +12,9 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <include layout="@layout/fragment_icon" />
 
@@ -26,26 +26,30 @@
                     android:id="@+id/shop_upVote"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/shop_tradeName"
                     android:layout_centerInParent="true"
+                    android:layout_marginEnd="30dp"
+                    app:allow_random_color="false"
                     app:btn_color="@android:color/darker_gray"
                     app:btn_fill_color="#FF6666"
-                    app:siShape="@raw/like"
-                    app:allow_random_color="false"
-                    android:layout_alignTop="@+id/shop_tradeName"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="25dp" />
+                    app:click_animation_duration="200"
+                    app:shine_animation_duration="500"
+                    app:siShape="@raw/like" />
 
                 <com.sackcentury.shinebuttonlib.ShineButton
                     android:id="@+id/shop_favorite"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    app:btn_color="@android:color/darker_gray"
-                    app:btn_fill_color="#FF6666"
-                    app:siShape="@raw/like"
-                    app:allow_random_color="false"
                     android:layout_alignBottom="@+id/shop_remained"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="25dp" />
+                    android:layout_marginEnd="30dp"
+                    app:allow_random_color="false"
+                    app:btn_color="@android:color/darker_gray"
+                    app:btn_fill_color="#e7cd0b"
+                    app:click_animation_duration="200"
+                    app:shine_animation_duration="500"
+                    app:siShape="@raw/star" />
 
                 <TextView
                     android:id="@+id/shop_tradeName"
@@ -72,13 +76,13 @@
                     android:id="@+id/shop_original_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:gravity="center"
-                    android:textSize="12sp"
-                    android:text="1300元"
                     android:layout_alignBaseline="@+id/shop_price"
                     android:layout_alignBottom="@+id/shop_price"
-                    android:layout_toEndOf="@+id/shop_price" />
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/shop_price"
+                    android:gravity="center"
+                    android:text="1300元"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/shop_remained"
@@ -86,33 +90,52 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignStart="@+id/shop_price"
+                    android:layout_below="@+id/shop_price"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:textSize="12sp"
                     android:text="剩余1件"
-                    android:layout_below="@+id/shop_price" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/shop_pageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="12sp"
-                    android:text="60次浏览"
                     android:layout_alignBaseline="@+id/shop_remained"
                     android:layout_alignBottom="@+id/shop_remained"
-                    android:layout_toEndOf="@+id/shop_original_price" />
+                    android:layout_toEndOf="@+id/shop_original_price"
+                    android:gravity="center"
+                    android:text="60次浏览"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/shop_detail_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/shop_pageView"
+                    android:layout_marginStart="40dp"
                     android:layout_toEndOf="@+id/shop_pageView"
-                    android:layout_marginStart="50dp"
                     android:gravity="center"
+                    android:text="1小时前"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/shop_price"
                     android:textSize="12sp"
-                    android:text="1小时前" />
+                    android:text="收藏" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/shop_price"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="12sp"
+                    android:text="点赞"/>
+
 
             </RelativeLayout>
 
@@ -129,15 +152,15 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="商品详细信息：" />
+                    android:text="商品详细信息："
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/shop_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="sadfas" />
+                    android:text="sadfas"
+                    android:textSize="16sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -149,6 +172,7 @@
                     android:layout_height="350dp"
                     android:layout_margin="10dp"
                     fresco:placeholderImageScaleType="centerInside" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp" />
@@ -225,6 +249,7 @@
             android:orientation="horizontal">
 
             <RadioButton
+                android:visibility="gone"
                 android:id="@+id/shop_contact"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

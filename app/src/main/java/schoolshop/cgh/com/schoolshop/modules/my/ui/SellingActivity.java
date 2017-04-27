@@ -142,7 +142,7 @@ public class SellingActivity extends BaseActivity {
      */
     private void fetchBuyList(int personId){
         RetrofitSingleton.getInstance()
-                .getBuyList(personId)
+                .getBoughtList(personId)
                 .compose(this.bindToLifecycle())
                 .subscribe(new Subscriber<List<GoodDetail>>() {
                     @Override
