@@ -64,4 +64,9 @@ public class Constant {
      */
     public static final int TYPE_Buy = 3;
 
+    /**
+     * 收藏夹
+     */
+    public static final int Type_Fav = 5;
+
 }

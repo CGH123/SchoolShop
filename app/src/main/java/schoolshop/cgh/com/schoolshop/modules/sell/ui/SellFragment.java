@@ -327,7 +327,7 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
 
             final String path=listUrls.get(position);
             if (path.equals("000000")){
-                holder.image.setImageResource(R.mipmap.ic_launcher);
+                holder.image.setImageResource(R.mipmap.ic_add_address);
             }else {
                 Glide.with(getActivity())
                         .load(path)

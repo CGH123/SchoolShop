@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.Date;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +30,7 @@ import schoolshop.cgh.com.schoolshop.base.BaseActivity;
 import schoolshop.cgh.com.schoolshop.base.Constant;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.Order;
+import schoolshop.cgh.com.schoolshop.common.utils.SharedPreferenceUtil;
 import schoolshop.cgh.com.schoolshop.common.utils.TimeUtils;
 import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
 import schoolshop.cgh.com.schoolshop.modules.my.ui.LoginActivity;
@@ -77,6 +80,8 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
     SimpleDraweeView shop_img6;
     @BindView(R.id.shop_group)
     RadioGroup shop_group;
+    @BindView(R.id.shop_buy)
+    RadioButton shop_buy;
     @BindView(R.id.icon_skip)
     ImageView icon_skip;
     @BindView(R.id.layout_icon)
@@ -95,6 +100,7 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
         goodDetail = (GoodDetail)intent.getSerializableExtra("goodDetail");
 
         initView();
+        initShine();
     }
 
     /**
@@ -107,6 +113,21 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
                 .subscribe(aVoid -> {
                     Log.d("success" , "浏览量增加成功");
                 });
+    }
+
+    private void initShine(){
+        //检查收藏功能的button
+        Set<String> favSet = SharedPreferenceUtil.getInstance().getFav();
+        if(favSet.contains(String.valueOf(goodDetail.getGoodId()))){
+            shop_favorite.setChecked(true);
+        }
+
+        //检查点赞功能的button
+        Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote();
+        if(upVoteSet.contains(String.valueOf(goodDetail.getGoodId()))){
+            shop_upVote.setChecked(true);
+        }
+
     }
 
     private void initView(){
@@ -179,14 +200,19 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
                 shop_img6.setImageURI(Uri.parse(imagePath[5]));
                 break;
         }
+        if(goodDetail.getGoodDone()){
+            shop_buy.setText("已下架");
+        }else{
 
+            shop_buy.setOnClickListener(this);
+        }
+
+        //shop_group.setOnCheckedChangeListener(this);
         shop_original_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         icon_skip.setVisibility(View.VISIBLE);
         person_layout.setOnClickListener(this);
-        shop_group.setOnCheckedChangeListener(this);
         shop_upVote.setOnClickListener(this);
         shop_favorite.setOnClickListener(this);
-
     }
 
     @Override
@@ -198,11 +224,56 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
                 intent.setClass(this, PersonPageActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.shop_favorite:
+            case R.id.shop_buy:
+                if(Constant.PERSON != null) {
+                    Order order = new Order(0, goodDetail.getGoodId(), goodDetail.getPersonId(),
+                            Constant.PERSON.getPersonId(), 0, new Date());
+                    fetchOrder(order)
+                            .subscribe(new Subscriber<Order>() {
+                                @Override
+                                public void onCompleted() {
+                                    Toast.makeText(getApplicationContext() , "购买成功，等待卖家确认" , Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
 
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.e("error" , e.toString());
+                                }
+
+                                @Override
+                                public void onNext(Order order) {
+                                    if(order == null || order.getOrderId() == 0){
+                                        Toast.makeText(getApplicationContext() , "商品已购买" , Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }else{
+                    Intent intent1 = new Intent();
+                    intent1.setClass(this , LoginActivity.class);
+                    startActivity(intent1);
+                    Toast.makeText(this , "请先登录" , Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.shop_upVote:
-
+                //点赞功能实现
+                if(!shop_upVote.isChecked()){
+                    //已经点赞，执行取消点赞动作
+                    fetchDownVote(goodDetail.getGoodId());
+                }else{
+                    //还没点赞，执行点赞动作
+                    fetchUpVote(goodDetail.getGoodId());
+                }
+                break;
+            case R.id.shop_favorite:
+                //收藏功能实现
+                if(!shop_favorite.isChecked()){
+                    //已经收藏，执行取消收藏动作
+                    fetchDeleteFav(Constant.PERSON.getPersonId() , goodDetail.getGoodId());
+                }else{
+                    //还没收藏，执行收藏动作
+                    fetchInsertFav(Constant.PERSON.getPersonId() , goodDetail.getGoodId());
+                }
                 break;
         }
     }
@@ -251,10 +322,54 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
     /**
      * 网络部分,实现服务起中的浏览量增加
      */
-    private Observable<Void> fetchUpvote(int goodId){
-        return RetrofitSingleton.getInstance()
-                .getUpvote(goodId)
-                .compose(this.bindToLifecycle());
+    private void fetchUpVote(int goodId){
+        Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote();
+        RetrofitSingleton.getInstance()
+            .getUpvote(goodId , 1)
+            .compose(this.bindToLifecycle())
+            .subscribe(aVoid ->{
+                upVoteSet.add(String.valueOf(goodDetail.getGoodId()));
+                SharedPreferenceUtil.getInstance().putUpvote(upVoteSet);
+            });
+    }
+
+    private void fetchDownVote(int goodId){
+        Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote();
+        RetrofitSingleton.getInstance()
+                .getUpvote(goodId , -1)
+                .compose(this.bindToLifecycle())
+                .subscribe(aVoid ->{
+                    upVoteSet.remove(String.valueOf(goodDetail.getGoodId()));
+                    SharedPreferenceUtil.getInstance().putUpvote(upVoteSet);
+                });
+    }
+
+    private void fetchDeleteFav(int personId , int goodId){
+        Set<String> favSet = SharedPreferenceUtil.getInstance().getFav();
+        RetrofitSingleton.getInstance()
+            .getDeleteFav(personId , goodId)
+            .compose(this.bindToLifecycle())
+            .subscribe(integer -> {
+                if(integer == 1){
+                    favSet.remove(String.valueOf(goodDetail.getGoodId()));
+                    SharedPreferenceUtil.getInstance().putFav(favSet);
+                    Log.e("error" , "cancel upVote success");
+                }
+            });
+    }
+
+    public void fetchInsertFav(int personId , int goodId){
+        Set<String> favSet = SharedPreferenceUtil.getInstance().getFav();
+        RetrofitSingleton.getInstance()
+            .getInsertFav(personId , goodId)
+            .compose(this.bindToLifecycle())
+            .subscribe(integer -> {
+                if(integer == 1){
+                    favSet.add(String.valueOf(goodDetail.getGoodId()));
+                    SharedPreferenceUtil.getInstance().putFav(favSet);
+                    Log.e("error" , "add upVote success");
+                }
+            });
     }
 
     private Observable<Void> fetchView(int goodId){
@@ -268,4 +383,5 @@ public class ShopDetailActivity extends BaseActivity implements RadioGroup.OnChe
                 .postBuy(order)
                 .compose(this.bindToLifecycle());
     }
+
 }

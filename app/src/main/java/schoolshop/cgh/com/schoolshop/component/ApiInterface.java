@@ -27,8 +27,8 @@ import schoolshop.cgh.com.schoolshop.common.entity.UserDetail;
 
 public interface ApiInterface {
     //主机服务器
-    //String HOST = "http://101.200.223.115:8080/ssm/";
-    String HOST = "http://192.168.93.2:8080/ssm/";
+    String HOST = "http://101.200.223.115:8080/ssm/";
+    //String HOST = "http://192.168.93.2:8080/ssm/";
 
     @GET("user/test")
     Observable<List<User1>> mUserAPI();
@@ -80,8 +80,8 @@ public interface ApiInterface {
     /**
      * 点赞量增加
      */
-    @GET("good/info/upvote/{goodId}")
-    Observable<Void> getUpvote(@Path("goodId") int goodId);
+    @GET("good/info/upvote/{goodId}/{nums}")
+    Observable<Void> getUpvote(@Path("goodId") int goodId , @Path("nums") int nums);
 
     /**
      * 浏览量增加
@@ -155,5 +155,23 @@ public interface ApiInterface {
      */
     @POST("order/buy")
     Observable<Order> postOrder(@Body Order order);
+
+    /**
+     * 查看收藏夹中的信息
+     */
+    @GET("favorite/good/list/{personId}")
+    Observable<List<GoodDetail>> getFavoriteGood(@Path("personId") int personId);
+
+    /**
+     * 删除收藏夹中的信息
+     */
+    @GET("favorite/delete/{personId}/{goodId}")
+    Observable<Integer> getDeleteFav(@Path("personId") int personId , @Path("goodId") int goodId);
+
+    /**
+     * 添加收藏夹中的信息
+     */
+    @GET("favorite/insert/{personId}/{goodId}")
+    Observable<Integer> getInsertFav(@Path("personId") int personId , @Path("goodId") int goodId);
 
 }

@@ -118,9 +118,8 @@ public class RetrofitSingleton {
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
-    public Observable<GoodDetail> getGoodKindList(int offset , int limit , int kind , boolean goodDone){
+    public Observable<List<GoodDetail>> getGoodKindList(int offset , int limit , int kind , boolean goodDone){
         return sApiService.getGoodKindList(offset , limit , kind , goodDone)
-                .flatMap(goodDetails -> Observable.from(goodDetails))
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
@@ -175,8 +174,8 @@ public class RetrofitSingleton {
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
-    public Observable<Void> getUpvote(int goodId){
-        return sApiService.getUpvote(goodId)
+    public Observable<Void> getUpvote(int goodId , int num){
+        return sApiService.getUpvote(goodId , num)
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
@@ -211,4 +210,18 @@ public class RetrofitSingleton {
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
+    public Observable<List<GoodDetail>> getFavoriteGood(int personId){
+        return sApiService.getFavoriteGood(personId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Integer> getDeleteFav(int personId , int goodId){
+        return sApiService.getDeleteFav(personId , goodId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Integer> getInsertFav(int personId , int goodId){
+        return sApiService.getInsertFav(personId , goodId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
 }

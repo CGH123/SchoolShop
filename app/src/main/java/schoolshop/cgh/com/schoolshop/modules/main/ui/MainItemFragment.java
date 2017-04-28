@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +21,12 @@ import rx.Subscriber;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.base.BaseFragment;
 import schoolshop.cgh.com.schoolshop.base.Constant;
+import schoolshop.cgh.com.schoolshop.base.WrapContentLinearLayoutManager;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.utils.ToastUtil;
 import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
 import schoolshop.cgh.com.schoolshop.modules.main.adapter.HomeShopAdapter;
+import schoolshop.cgh.com.schoolshop.modules.my.ui.LoginActivity;
 
 /**
  * Created by HUI on 2017-04-13.
@@ -75,13 +77,21 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
             onRefresh();
         }
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        final WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new HomeShopAdapter(goodList);
         mRecyclerView.setAdapter(mAdapter);
 
         //设置Adapter的item点击事件
         mAdapter.setOnItemClickListener((view , position) -> {
+            //判断登录状态是否合法
+            if(Constant.PERSON == null){
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                ToastUtil.showShort("请先登录");
+                return;
+            }
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             bundle.putSerializable("goodDetail", goodList.get(position));
@@ -142,7 +152,6 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
     @Override
     public void onRefresh() {
         // start refresh
-        Toast.makeText(getActivity() , "i am refreshing" , Toast.LENGTH_SHORT).show();
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -158,12 +167,7 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
      */
     private void initRecycleView(int offset , int limit , int kind , boolean goodDone , boolean clear){
         fetchDataByGoodKind(offset , limit , kind , goodDone)
-                .doOnSubscribe(() -> {
-                    if(clear){
-                        goodList.clear();
-                    }
-                })
-                .subscribe(new Subscriber<GoodDetail>() {
+                .subscribe(new Subscriber<List<GoodDetail>>() {
                     @Override
                     public void onCompleted() {
                         mAdapter.notifyDataSetChanged();
@@ -176,14 +180,17 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
                     }
 
                     @Override
-                    public void onNext(GoodDetail goodDetail) {
-                        goodList.add(goodDetail);
+                    public void onNext(List<GoodDetail> goodDetail) {
+                        if(clear){
+                            goodList.clear();
+                        }
+                        goodList.addAll(goodDetail);
                     }
                 });
     }
 
     //完成生命周期同步，防止RxJava内存泄漏
-    private Observable<GoodDetail> fetchDataByGoodKind(int offset , int limit , int kind , boolean goodDone){
+    private Observable<List<GoodDetail>> fetchDataByGoodKind(int offset , int limit , int kind , boolean goodDone){
         return RetrofitSingleton.getInstance()
                 .getGoodKindList(offset , limit , kind , goodDone)
                 .compose(this.bindToLifecycle());

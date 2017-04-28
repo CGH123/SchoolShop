@@ -57,7 +57,7 @@ public class MainFragment extends BaseFragment{
     private void initView(){
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.mipmap.ali_pay);
+        ab.setHomeAsUpIndicator(R.drawable.github);
         ab.setDisplayHomeAsUpEnabled(true);
         //下面添加Tab的属性
         HomePagerAdapter mHomePagerAdapter = new HomePagerAdapter(getActivity().getSupportFragmentManager());

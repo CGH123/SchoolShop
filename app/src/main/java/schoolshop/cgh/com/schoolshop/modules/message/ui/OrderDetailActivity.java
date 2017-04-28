@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -47,6 +48,8 @@ public class OrderDetailActivity extends RxActivity implements View.OnClickListe
     SimpleDraweeView msg_image;
     @BindView(R.id.msg_group)
     RadioGroup msg_group;
+    @BindView(R.id.msg_configure)
+    RadioButton msg_configure;
 
     private OrderDetail orderDetail;
 
@@ -71,7 +74,8 @@ public class OrderDetailActivity extends RxActivity implements View.OnClickListe
         msg_date.setText(TimeUtils.getMD(orderDetail.getOrderTime()));
         msg_image.setImageURI(Uri.parse(orderDetail.getGoodImagelist().split(";")[0]));
 
-        msg_group.setOnCheckedChangeListener(this);
+        //msg_group.setOnCheckedChangeListener(this);
+        msg_configure.setOnClickListener(this);
         msg_layout.setOnClickListener(this);
     }
 
@@ -85,6 +89,13 @@ public class OrderDetailActivity extends RxActivity implements View.OnClickListe
                             intent.putExtra("goodDetail", goodDetail);
                             intent.setClass(this, ShopDetailActivity.class);
                             startActivity(intent);
+                        });
+                break;
+            case R.id.msg_configure:
+                fetchOrderState(orderDetail.getOrderId() , 2)
+                        .subscribe(aVoid -> {
+                            Toast.makeText(this , "确认收货成功" , Toast.LENGTH_SHORT).show();
+                            finish();
                         });
                 break;
         }

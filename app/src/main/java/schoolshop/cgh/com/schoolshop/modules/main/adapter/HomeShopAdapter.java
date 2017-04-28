@@ -11,15 +11,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import schoolshop.cgh.com.schoolshop.R;
+import schoolshop.cgh.com.schoolshop.base.Constant;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.utils.SharedPreferenceUtil;
 import schoolshop.cgh.com.schoolshop.common.utils.TimeUtils;
+import schoolshop.cgh.com.schoolshop.common.utils.ToastUtil;
 import schoolshop.cgh.com.schoolshop.component.AnimRecyclerViewAdapter;
+import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
 
 /**
  * Created by HUI on 2017-04-13.
@@ -159,10 +165,14 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
         TextView shop_pageView;
         @BindView(R.id.shop_upVote)
         TextView shop_upVote;
+        @BindView(R.id.shop_shineButton)
+        ShineButton shop_shineButton;
 
         //设置Layout中的点击事件 shop_upVote
         @BindView(R.id.shop_layout)
         CardView layout;
+
+        private GoodDetail goodDetail;
 
         public ViewHolder1(View itemView) {
             super(itemView);
@@ -170,6 +180,8 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
         }
 
         private void bind (GoodDetail goodDetail){
+            this.goodDetail = goodDetail;
+
             shop_icon.setImageURI(Uri.parse(goodDetail.getPersonIcon()));
             shop_tradeName.setText(goodDetail.getGoodName());
             shop_price.setText(goodDetail.getGoodPrice() + "元");
@@ -221,18 +233,68 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
             }
 
             //绑定空间中相关的监听器
-            shop_icon.setOnClickListener(this);
+            //shop_icon.setOnClickListener(this);
             shop_original_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+            shop_shineButton.setOnClickListener(this);
+            if(Constant.PERSON != null){
+                Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote();
+                if(upVoteSet.contains(String.valueOf(goodDetail.getGoodId()))){
+                    shop_shineButton.setChecked(true);
+                }
+            }
         }
 
         @Override
         public void onClick(View v) {
+            //判断登录状态是否合法
+            if(Constant.PERSON == null){
+                shop_shineButton.setChecked(false);
+                ToastUtil.showShort("请先登录");
+                return;
+            }
+
             switch (v.getId()){
-                case R.id.shop_icon:
-                    //通过onItemClick完成了
+                case R.id.shop_shineButton:
+                    //实现点赞功能
+                    //点赞功能实现
+                    if(!shop_shineButton.isChecked()){
+                        //已经点赞，执行取消点赞动作
+                        fetchDownVote(goodDetail.getGoodId());
+                        goodDetail.setGoodUpvote(goodDetail.getGoodUpvote() - 1);
+                        shop_upVote.setText("点赞量:" + goodDetail.getGoodUpvote());
+                    }else{
+                        //还没点赞，执行点赞动作
+                        fetchUpVote(goodDetail.getGoodId());
+                        goodDetail.setGoodUpvote(goodDetail.getGoodUpvote() + 1);
+                        shop_upVote.setText("点赞量:" + goodDetail.getGoodUpvote());
+                    }
                     break;
             }
         }
+    }
+
+    /**
+     * 点赞的网络部分
+     */
+    private void fetchUpVote(int goodId){
+        Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote();
+        RetrofitSingleton.getInstance()
+                .getUpvote(goodId , 1)
+                .subscribe(aVoid ->{
+                    upVoteSet.add(String.valueOf(goodId));
+                    SharedPreferenceUtil.getInstance().putUpvote(upVoteSet);
+                });
+    }
+
+    private void fetchDownVote(int goodId){
+        Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote();
+        RetrofitSingleton.getInstance()
+                .getUpvote(goodId , -1)
+                .subscribe(aVoid ->{
+                    upVoteSet.remove(String.valueOf(goodId));
+                    SharedPreferenceUtil.getInstance().putUpvote(upVoteSet);
+                });
     }
 
 }

@@ -4,11 +4,14 @@ import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import schoolshop.cgh.com.schoolshop.base.BaseApplication;
 
 /**
  * Created by hugo on 2016/2/19 0019.
- *
+ * <p>
  * 设置相关 包括 sp 的写入
  */
 public class SharedPreferenceUtil {
@@ -21,6 +24,8 @@ public class SharedPreferenceUtil {
     public static final String AUTO_UPDATE = "change_update_time"; //自动更新时长
     public static final String NOTIFICATION_MODEL = "notification_model";
     public static final String ANIM_START = "animation_start";
+    public static final String Set_Fav = "favorite";
+    public static final String Set_Upvote = "upvote";
 
     public static int ONE_HOUR = 1000 * 60 * 60;
 
@@ -40,6 +45,24 @@ public class SharedPreferenceUtil {
 
     public SharedPreferenceUtil putInt(String key, int value) {
         mPrefs.edit().putInt(key, value).apply();
+        return this;
+    }
+
+    public Set<String> getFav(){
+        return mPrefs.getStringSet(Set_Fav , new HashSet<>());
+    }
+
+    public Set<String> getUpvote(){
+        return mPrefs.getStringSet(Set_Upvote , new HashSet<>());
+    }
+
+    public SharedPreferenceUtil putFav(Set<String> strSet) {
+        mPrefs.edit().putStringSet(Set_Fav, strSet).apply();
+        return this;
+    }
+
+    public SharedPreferenceUtil putUpvote(Set<String> strSet) {
+        mPrefs.edit().putStringSet(Set_Upvote, strSet).apply();
         return this;
     }
 

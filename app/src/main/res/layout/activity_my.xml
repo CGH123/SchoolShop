@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/gray_light"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -125,8 +124,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/gray_light"/>
+        android:layout_height="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -147,7 +145,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/ali_pay"
+                    android:src="@drawable/github"
                     android:id="@+id/imageView2"
                     android:layout_centerVertical="true"
                     android:layout_alignParentStart="true" />
@@ -176,8 +174,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/gray_light"/>
+            android:layout_height="5dp"/>
 
         <android.support.v7.widget.CardView
             android:clickable="true"
@@ -193,7 +190,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/ali_pay"
+                    android:src="@drawable/github"
                     android:id="@+id/imageView3"
                     android:layout_centerVertical="true"
                     android:layout_alignParentStart="true" />
@@ -223,7 +220,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="@color/gray_light"/>
+            />
 
         <android.support.v7.widget.CardView
             android:clickable="true"
@@ -239,7 +236,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/ali_pay"
+                    android:src="@drawable/github"
                     android:id="@+id/imageView4"
                     android:layout_centerVertical="true"
                     android:layout_alignParentStart="true" />
@@ -268,8 +265,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/gray_light"/>
+            android:layout_height="5dp"/>
 
         <android.support.v7.widget.CardView
             android:clickable="true"
@@ -286,7 +282,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/ali_pay"
+                    android:src="@drawable/github"
                     android:id="@+id/imageView5"
                     android:layout_centerVertical="true"
                     android:layout_alignParentStart="true" />
@@ -315,8 +311,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/gray_light"/>
+            android:layout_height="20dp"/>
 
         <android.support.v7.widget.CardView
             android:clickable="true"
@@ -332,7 +327,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/ali_pay"
+                    android:src="@drawable/github"
                     android:id="@+id/imageView6"
                     android:layout_centerVertical="true"
                     android:layout_alignParentStart="true" />

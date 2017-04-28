@@ -217,7 +217,7 @@
                 android:layout_height="80dp"
                 android:gravity="center|right"
                 android:adjustViewBounds="true"
-                android:background="@mipmap/ali_pay"
+                android:background="@drawable/github"
                 android:contentDescription="@string/app_name"
                 android:padding="6dp" />
 

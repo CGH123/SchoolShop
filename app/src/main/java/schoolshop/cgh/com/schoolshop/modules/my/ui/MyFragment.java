@@ -113,7 +113,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.my_favorite:
-                intent.setClass(getActivity() , FavoriteActivity.class);
+                intent.putExtra("type" , Constant.Type_Fav);
+                intent.setClass(getActivity() , SellingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.my_help:

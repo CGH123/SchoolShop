@@ -91,7 +91,7 @@
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/shop_sex"
                 android:layout_width="17sp"
-                android:layout_height="20sp"
+                android:layout_height="23sp"
                 android:layout_marginStart="5dp"
                 fresco:placeholderImage="@mipmap/man"
                 fresco:placeholderImageScaleType="fitCenter"
@@ -111,7 +111,7 @@
             <View
                 android:id="@+id/view1"
                 android:layout_width="100dp"
-                android:layout_height="5dp"
+                android:layout_height="8dp"
                 android:layout_below="@id/shop_personName" />
 
             <LinearLayout

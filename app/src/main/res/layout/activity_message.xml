@@ -63,7 +63,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
-                fresco:srcCompat="@mipmap/ic_go_dark" />
+                fresco:srcCompat="@mipmap/ic_go_black" />
 
 
         </RelativeLayout>

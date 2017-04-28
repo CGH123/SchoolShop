@@ -3,6 +3,7 @@ package schoolshop.cgh.com.schoolshop.modules.message.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,6 +32,8 @@ import schoolshop.cgh.com.schoolshop.modules.message.adapter.MessageAdapter;
 public class MessageFragment extends BaseFragment {
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
+    @BindView(R.id.cardView)
+    CardView cardView;
 
     private View view;
     private MessageAdapter mAdapter;
@@ -96,6 +99,13 @@ public class MessageFragment extends BaseFragment {
                     .subscribe(new Subscriber<List<OrderDetail>>() {
                         @Override
                         public void onCompleted() {
+                            if(orderList.size() == 0){
+                                mRecyclerView.setVisibility(View.GONE);
+                                cardView.setVisibility(View.VISIBLE);
+                            }else{
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                                cardView.setVisibility(View.GONE);
+                            }
                             mAdapter.notifyDataSetChanged();
                             Log.e("error", "orderDetail finished");
                         }
@@ -111,6 +121,10 @@ public class MessageFragment extends BaseFragment {
                             orderList.addAll(orderDetails);
                         }
                     });
+        }else{
+            //显示没有新的消息
+            mRecyclerView.setVisibility(View.GONE);
+            cardView.setVisibility(View.VISIBLE);
         }
     }
 

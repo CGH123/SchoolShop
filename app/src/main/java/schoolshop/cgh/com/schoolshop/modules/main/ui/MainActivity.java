@@ -18,6 +18,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.base.BaseActivity;
+import schoolshop.cgh.com.schoolshop.common.utils.DoubleClickExit;
+import schoolshop.cgh.com.schoolshop.common.utils.PollingUtils;
+import schoolshop.cgh.com.schoolshop.common.utils.ToastUtil;
+import schoolshop.cgh.com.schoolshop.component.PollingService;
 import schoolshop.cgh.com.schoolshop.modules.message.ui.MessageFragment;
 import schoolshop.cgh.com.schoolshop.modules.my.ui.MyFragment;
 import schoolshop.cgh.com.schoolshop.modules.sell.ui.SellFragment;
@@ -52,14 +56,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
         init();
         //轮询机制开启,暂时关闭
-        //PollingUtils.startPollingService(this, 5, PollingService.class, PollingService.ACTION);
+        PollingUtils.startPollingService(this, 6, PollingService.class, PollingService.ACTION);
     }
 
     private void init(){
         mNavigationView.setNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
         ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.mipmap.ali_pay);
+        ab.setHomeAsUpIndicator(R.drawable.github);
         ab.setDisplayHomeAsUpEnabled(true);
         //一开始先隐藏actionbar
         ab.hide();
@@ -155,6 +159,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        //TODO暂时关闭侧拉框
         item.setChecked(true);
         mDrawerLayout.closeDrawers();
         return true;
@@ -176,6 +181,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onDestroy() {
         super.onDestroy();
         //销毁轮询机制
-        //PollingUtils.stopPollingService(this, PollingService.class, PollingService.ACTION);
+        PollingUtils.stopPollingService(this, PollingService.class, PollingService.ACTION);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            if (!DoubleClickExit.check()) {
+                ToastUtil.showShort(getString(R.string.double_exit));
+            } else {
+                finish();
+            }
+        }
+    }
+
 }

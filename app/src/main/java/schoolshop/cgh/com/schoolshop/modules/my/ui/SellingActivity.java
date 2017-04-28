@@ -48,7 +48,7 @@ public class SellingActivity extends BaseActivity {
     private void init(){
         setSupportActionBar(id_toolbar);
         ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.mipmap.ali_pay);
+        ab.setHomeAsUpIndicator(R.drawable.github);
         ab.setDisplayHomeAsUpEnabled(true);
         int type = getIntent().getExtras().getInt("type");
 
@@ -77,6 +77,9 @@ public class SellingActivity extends BaseActivity {
                 break;
             case Constant.TYPE_Buy:
                 fetchBuyList(Constant.PERSON.getPersonId());
+                break;
+            case Constant.Type_Fav:
+                fetchFavList(Constant.PERSON.getPersonId());
                 break;
         }
 
@@ -163,5 +166,37 @@ public class SellingActivity extends BaseActivity {
                     }
                 });
     }
+
+    /**
+     * 查看收藏夹中的内容
+     */
+    private void fetchFavList(int personId){
+        RetrofitSingleton.getInstance()
+                .getFavoriteGood(personId)
+                .compose(this.bindToLifecycle())
+                .subscribe(new Subscriber<List<GoodDetail>>() {
+                    @Override
+                    public void onCompleted() {
+                        mAdapter.notifyDataSetChanged();
+                        Log.e("error" , "fav finished");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("error" , e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<GoodDetail> goodDetails) {
+                        goodList.clear();
+                        goodList.addAll(goodDetails);
+                    }
+                });
+    }
+
+    /**
+     * 查询订单的状态信息
+     * TODO
+     */
 
 }

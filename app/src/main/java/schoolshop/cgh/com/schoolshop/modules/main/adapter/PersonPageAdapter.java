@@ -112,7 +112,7 @@ public class PersonPageAdapter extends AnimRecyclerViewAdapter<RecyclerView.View
         }
 
         private void bind (GoodDetail goodDetail){
-            per_detail_img.setImageURI(Uri.parse(goodDetail.getGoodImagelist()));
+            per_detail_img.setImageURI(Uri.parse(goodDetail.getGoodImagelist().split(";")[0]));
             per_detail_info.setText(goodDetail.getGoodDetail());
             per_detail_money.setText(goodDetail.getGoodPrice() + "元");
             per_detail_time.setText(TimeUtils.getDiff(goodDetail.getGoodTime()));

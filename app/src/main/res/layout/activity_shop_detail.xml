@@ -171,7 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:layout_margin="10dp"
-                    fresco:placeholderImageScaleType="centerInside" />
+                    fresco:placeholderImageScaleType="com.facebook.drawee.drawable.ScalingUtils.ScaleTypeFitCenter" />
 
                 <View
                     android:layout_width="match_parent"
@@ -182,7 +182,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:layout_margin="10dp"
-                    fresco:placeholderImageScaleType="centerInside" />
+                    fresco:placeholderImageScaleType="com.facebook.drawee.drawable.ScalingUtils.ScaleTypeFitCenter" />
 
                 <View
                     android:layout_width="match_parent"
@@ -193,7 +193,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:layout_margin="10dp"
-                    fresco:placeholderImageScaleType="centerInside" />
+                    fresco:placeholderImageScaleType="com.facebook.drawee.drawable.ScalingUtils.ScaleTypeFitCenter" />
 
                 <View
                     android:layout_width="match_parent"
@@ -204,7 +204,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:layout_margin="10dp"
-                    fresco:placeholderImageScaleType="centerInside" />
+                    fresco:placeholderImageScaleType="com.facebook.drawee.drawable.ScalingUtils.ScaleTypeFitCenter" />
 
                 <View
                     android:layout_width="match_parent"
@@ -215,7 +215,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:layout_margin="10dp"
-                    fresco:placeholderImageScaleType="centerInside" />
+                    fresco:placeholderImageScaleType="com.facebook.drawee.drawable.ScalingUtils.ScaleTypeFitCenter" />
 
                 <View
                     android:layout_width="match_parent"
@@ -226,7 +226,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:layout_margin="10dp"
-                    fresco:placeholderImageScaleType="centerInside" />
+                    fresco:placeholderImageScaleType="com.facebook.drawee.drawable.ScalingUtils.ScaleTypeFitCenter" />
 
                 <View
                     android:layout_width="match_parent"
