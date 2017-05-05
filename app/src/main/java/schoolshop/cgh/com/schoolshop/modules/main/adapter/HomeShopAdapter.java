@@ -103,6 +103,11 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
         return goodList.size() == 0 ? 0 : goodList.size() + 1;
     }
 
+    public void refresh(List<GoodDetail> goodList) {
+        this.goodList = goodList;
+        notifyDataSetChanged();
+    }
+
     /**
      * 内部item接口
      */

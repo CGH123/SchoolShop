@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,14 +24,20 @@ import schoolshop.cgh.com.schoolshop.modules.main.adapter.HomePagerAdapter;
  * Created by HUI on 2017-04-13.
  */
 
-public class MainFragment extends BaseFragment{
+public class MainFragment extends BaseFragment implements View.OnClickListener{
     @BindView(R.id.tabLayout)
     TabLayout mTabLayout;
     @BindView(R.id.viewPager)
     ViewPager mViewPager;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.shop_search)
+    ImageView shop_search;
+    @BindView(R.id.shop_search_content)
+    EditText shop_search_content;
 
+    //用于展示模糊搜索结果的fragment
+    private MainItemFragment searchItem;
     private View view;
 
     @Override
@@ -63,7 +71,8 @@ public class MainFragment extends BaseFragment{
         HomePagerAdapter mHomePagerAdapter = new HomePagerAdapter(getActivity().getSupportFragmentManager());
         //曲线救国，不建议这么做，在fragment中设置好不同的参数
         Constant.Kind_Now = Constant.Kind_All;
-        mHomePagerAdapter.addTab(new MainItemFragment() , "全部");
+        searchItem = new MainItemFragment();
+        mHomePagerAdapter.addTab(searchItem , "全部");
         Constant.Kind_Now = Constant.Kind_Book;
         mHomePagerAdapter.addTab(new MainItemFragment() , "书籍");
         Constant.Kind_Now = Constant.Kind_Digit;
@@ -77,5 +86,23 @@ public class MainFragment extends BaseFragment{
         mViewPager.setAdapter(mHomePagerAdapter);
         mViewPager.setCurrentItem(0);
         mTabLayout.setupWithViewPager(mViewPager);
+        shop_search.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.shop_search:
+                //模糊搜索只允许在全部搜索选项卡
+                mViewPager.setCurrentItem(0);
+                shop_search_content.setVisibility(View.VISIBLE);
+                String searchName = shop_search_content.getText().toString();
+                if(!searchName.equals("")){
+                    searchItem.onRefreshType(searchName , true);
+                    shop_search_content.setText("");
+                    shop_search_content.setVisibility(View.GONE);
+                }
+                break;
+        }
     }
 }

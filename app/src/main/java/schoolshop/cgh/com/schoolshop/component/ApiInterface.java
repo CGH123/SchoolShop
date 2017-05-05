@@ -27,8 +27,8 @@ import schoolshop.cgh.com.schoolshop.common.entity.UserDetail;
 
 public interface ApiInterface {
     //主机服务器
-    String HOST = "http://101.200.223.115:8080/ssm/";
-    //String HOST = "http://192.168.93.2:8080/ssm/";
+    //String HOST = "http://101.200.223.115:8080/ssm/";
+    String HOST = "http://192.168.71.2:8080/ssm/";
 
     @GET("user/test")
     Observable<List<User1>> mUserAPI();
@@ -63,6 +63,12 @@ public interface ApiInterface {
      */
     @GET("good/info/person/{personId}")
     Observable<List<GoodDetail>> getPersonGoodList(@Path("personId") int personId);
+
+    /**
+     * 获取模糊字查询的功能
+     */
+    @GET("good/fuzzy/search/{goodName}/{offset}/{limit}/{goodDone}")
+    Observable<List<GoodDetail>> getGoodDetailByName(@Path("goodName") String goodName , @Path("offset") int offset, @Path("limit") int limit, @Path("goodDone") boolean goodDone);
 
     /**
      * 发布销售的商品

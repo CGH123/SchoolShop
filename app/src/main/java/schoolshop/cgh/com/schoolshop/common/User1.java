@@ -3,6 +3,7 @@ package schoolshop.cgh.com.schoolshop.common;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * 测试网络部分使用到的一个局部类
  * Created by HUI on 2017-04-15.
  */
 

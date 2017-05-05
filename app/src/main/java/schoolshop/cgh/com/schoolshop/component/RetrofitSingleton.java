@@ -224,4 +224,10 @@ public class RetrofitSingleton {
         return sApiService.getInsertFav(personId , goodId)
                 .compose(RxUtils.rxSchedulerHelper());
     }
+
+    public Observable<List<GoodDetail>> getGoodDetailByName(String goodName , int offset, int limit, boolean goodDone){
+        return sApiService.getGoodDetailByName(goodName , offset , limit , goodDone)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
 }

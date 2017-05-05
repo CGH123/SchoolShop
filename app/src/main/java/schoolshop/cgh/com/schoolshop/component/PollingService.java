@@ -44,7 +44,7 @@ public class PollingService extends Service {
     public void onStart(Intent intent, int startId) {
         // TODO Auto-generated method stub
         super.onStart(intent, startId);
-        Log.e("result", "onStart");
+        //Log.e("result", "onStart");
         new PollingThread().start();
     }
 
