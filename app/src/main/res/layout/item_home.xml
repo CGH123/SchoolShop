@@ -30,7 +30,7 @@
             android:layout_marginTop="10dp"
             fresco:roundAsCircle="false"
             fresco:placeholderImageScaleType="focusCrop"
-            fresco:placeholderImage="@mipmap/ic_launcher" />
+            fresco:placeholderImage="@mipmap/icon" />
 
         <View
             android:layout_width="10dp"
@@ -90,8 +90,8 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/shop_sex"
-                android:layout_width="17sp"
-                android:layout_height="23sp"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
                 android:layout_marginStart="5dp"
                 fresco:placeholderImage="@mipmap/man"
                 fresco:placeholderImageScaleType="fitCenter"
@@ -228,7 +228,7 @@
                     app:click_animation_duration="100"
                     app:shine_animation_duration="500"
                     app:btn_color="@android:color/darker_gray"
-                    app:btn_fill_color="#FF6666"
+                    app:btn_fill_color="#7accbd"
                     app:siShape="@raw/like"
                     android:src="@android:color/darker_gray"
                     android:layout_alignParentTop="true"

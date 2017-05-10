@@ -16,9 +16,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.base.BaseFragment;
 import schoolshop.cgh.com.schoolshop.base.Constant;
+import schoolshop.cgh.com.schoolshop.common.entity.Person;
+import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
 
 /**
  * Created by HUI on 2017-04-13.
@@ -43,6 +46,13 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
     SimpleDraweeView icon_sex;
     @BindView(R.id.icon_icon)
     SimpleDraweeView icon_icon;
+    @BindView(R.id.per_score)
+    TextView per_score;
+    @BindView(R.id.per_sell)
+    TextView per_sell;
+    @BindView(R.id.per_buy)
+    TextView per_buy;
+
 
     @Nullable
     @Override
@@ -71,6 +81,14 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
             }else{
                 icon_sex.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + R.mipmap.woman));
             }
+
+            //对评分、销售商品进行设置
+            fetchPerson(Constant.PERSON.getPersonId())
+                    .subscribe(person -> {
+                        per_score.setText(String.valueOf(person.getPersonGrade()));
+                        per_sell.setText(String.valueOf(person.getPersonSellnum()) + "件");
+                        per_buy.setText(String.valueOf(person.getPersonBuynum()) + "件");
+                    });
         }
     }
 
@@ -97,24 +115,22 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.my_selling:
                 intent.putExtra("type" , Constant.TYPE_Selling);
-                intent.setClass(getActivity() , SellingActivity.class);
+                intent.setClass(getActivity() , TradeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.my_selled:
-                //intent.setClass(getActivity() , SelledActivity.class);
                 intent.putExtra("type" , Constant.TYPE_Selled);
-                intent.setClass(getActivity() , SellingActivity.class);
+                intent.setClass(getActivity() , TradeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.my_buy:
-                //intent.setClass(getActivity() , BuyActivity.class);
                 intent.putExtra("type" , Constant.TYPE_Buy);
-                intent.setClass(getActivity() , SellingActivity.class);
+                intent.setClass(getActivity() , TradeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.my_favorite:
                 intent.putExtra("type" , Constant.Type_Fav);
-                intent.setClass(getActivity() , SellingActivity.class);
+                intent.setClass(getActivity() , FavoriteActivity.class);
                 startActivity(intent);
                 break;
             case R.id.my_help:
@@ -129,4 +145,14 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
                 break;
         }
     }
+
+    /**
+     * 根据personId获取商品信息
+     */
+    private Observable<Person> fetchPerson(int personId){
+        return RetrofitSingleton.getInstance()
+                .getPersonInfo(personId)
+                .compose(this.bindToLifecycle());
+    }
+
 }

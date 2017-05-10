@@ -47,9 +47,9 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if(position + 1 == getItemCount()){
+        if (position + 1 == getItemCount()) {
             return HomeShopAdapter.TYPE_FOOTER;
-        }else{
+        } else {
             return HomeShopAdapter.TYPE_ITEM;
         }
     }
@@ -78,13 +78,13 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
                 ((ViewHolder1) holder).bind(goodList.get(position));
 
                 //设置item监听事件
-                if (mOnItemClickListener != null){
+                if (mOnItemClickListener != null) {
                     holder.itemView.setOnClickListener((view) ->
-                            mOnItemClickListener.onItemClick(holder.itemView , position));
+                            mOnItemClickListener.onItemClick(holder.itemView, position));
                 }
 
                 //设置icon监听事件
-                if(mOnIconClickListener != null){
+                if (mOnIconClickListener != null) {
                     holder.itemView.findViewById(R.id.shop_icon)
                             .setOnClickListener(v -> mOnIconClickListener.onIconClick(position));
                 }
@@ -137,13 +137,13 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
     /**
      * Holder类
      */
-    class FootViewHolder extends RecyclerView.ViewHolder{
+    class FootViewHolder extends RecyclerView.ViewHolder {
         public FootViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    class ViewHolder1 extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ViewHolder1 extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.shop_icon)
         SimpleDraweeView shop_icon;
         @BindView(R.id.shop_tradeName)
@@ -181,10 +181,10 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
 
         public ViewHolder1(View itemView) {
             super(itemView);
-            ButterKnife.bind(this , itemView);
+            ButterKnife.bind(this, itemView);
         }
 
-        private void bind (GoodDetail goodDetail){
+        private void bind(GoodDetail goodDetail) {
             this.goodDetail = goodDetail;
 
             shop_icon.setImageURI(Uri.parse(goodDetail.getPersonIcon()));
@@ -192,9 +192,9 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
             shop_price.setText(goodDetail.getGoodPrice() + "元");
             shop_original_price.setText(goodDetail.getGoodOriginalPrice() + "元");
             shop_personName.setText(goodDetail.getPersonName());
-            if(goodDetail.getPersonSex()){
+            if (goodDetail.getPersonSex()) {
                 shop_sex.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + R.mipmap.man));
-            }else{
+            } else {
                 shop_sex.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + R.mipmap.woman));
             }
             shop_time.setText(TimeUtils.getDiff(goodDetail.getGoodTime()));
@@ -204,7 +204,7 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
 
             //下面对进行格式化
             String[] imagePath = goodDetail.getGoodImagelist().split(";");
-            switch (imagePath.length){
+            switch (imagePath.length) {
                 case 0:
                     shop_deta1.setVisibility(View.INVISIBLE);
                     shop_deta2.setVisibility(View.INVISIBLE);
@@ -242,9 +242,9 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
             shop_original_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
             shop_shineButton.setOnClickListener(this);
-            if(Constant.PERSON != null){
-                Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote();
-                if(upVoteSet.contains(String.valueOf(goodDetail.getGoodId()))){
+            if (Constant.PERSON != null) {
+                Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote(Constant.PERSON.getPersonId());
+                if (upVoteSet.contains(String.valueOf(goodDetail.getGoodId()))) {
                     shop_shineButton.setChecked(true);
                 }
             }
@@ -253,22 +253,22 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
         @Override
         public void onClick(View v) {
             //判断登录状态是否合法
-            if(Constant.PERSON == null){
+            if (Constant.PERSON == null) {
                 shop_shineButton.setChecked(false);
                 ToastUtil.showShort("请先登录");
                 return;
             }
 
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.shop_shineButton:
                     //实现点赞功能
                     //点赞功能实现
-                    if(!shop_shineButton.isChecked()){
+                    if (!shop_shineButton.isChecked()) {
                         //已经点赞，执行取消点赞动作
                         fetchDownVote(goodDetail.getGoodId());
                         goodDetail.setGoodUpvote(goodDetail.getGoodUpvote() - 1);
                         shop_upVote.setText("点赞量:" + goodDetail.getGoodUpvote());
-                    }else{
+                    } else {
                         //还没点赞，执行点赞动作
                         fetchUpVote(goodDetail.getGoodId());
                         goodDetail.setGoodUpvote(goodDetail.getGoodUpvote() + 1);
@@ -282,23 +282,23 @@ public class HomeShopAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHo
     /**
      * 点赞的网络部分
      */
-    private void fetchUpVote(int goodId){
-        Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote();
+    private void fetchUpVote(int goodId) {
+        Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote(Constant.PERSON.getPersonId());
         RetrofitSingleton.getInstance()
-                .getUpvote(goodId , 1)
-                .subscribe(aVoid ->{
+                .getUpvote(goodId, 1)
+                .subscribe(aVoid -> {
                     upVoteSet.add(String.valueOf(goodId));
-                    SharedPreferenceUtil.getInstance().putUpvote(upVoteSet);
+                    SharedPreferenceUtil.getInstance().putUpvote(Constant.PERSON.getPersonId(), upVoteSet);
                 });
     }
 
-    private void fetchDownVote(int goodId){
-        Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote();
+    private void fetchDownVote(int goodId) {
+        Set<String> upVoteSet = SharedPreferenceUtil.getInstance().getUpvote(Constant.PERSON.getPersonId());
         RetrofitSingleton.getInstance()
-                .getUpvote(goodId , -1)
-                .subscribe(aVoid ->{
+                .getUpvote(goodId, -1)
+                .subscribe(aVoid -> {
                     upVoteSet.remove(String.valueOf(goodId));
-                    SharedPreferenceUtil.getInstance().putUpvote(upVoteSet);
+                    SharedPreferenceUtil.getInstance().putUpvote(Constant.PERSON.getPersonId(), upVoteSet);
                 });
     }
 

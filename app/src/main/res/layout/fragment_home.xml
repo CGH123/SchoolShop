@@ -57,7 +57,7 @@
                 android:id="@+id/shop_search"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:src="@mipmap/ali_pay" />
+                android:src="@mipmap/search_icon" />
 
         </LinearLayout>
 
@@ -71,8 +71,11 @@
 
         <EditText
             android:id="@+id/shop_search_content"
+            android:background="@color/background"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:hint="请输入你要查询商品的关键字"
             android:visibility="gone" />
 

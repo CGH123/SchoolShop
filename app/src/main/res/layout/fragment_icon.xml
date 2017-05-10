@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/layout_icon"
-        android:background="@color/white"
+        android:background="#9aacbd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -47,7 +47,7 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/icon_sex"
-                android:layout_width="20sp"
+                android:layout_width="25sp"
                 android:layout_height="25sp"
                 android:layout_marginStart="5dp"
                 fresco:placeholderImageScaleType="fitCenter"
@@ -58,8 +58,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:visibility="invisible"
                 android:textSize="12sp"
+                android:visibility="invisible"
                 tools:text="备注信息" />
 
             <ImageView

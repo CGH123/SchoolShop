@@ -24,6 +24,7 @@ import rx.Observable;
 import schoolshop.cgh.com.schoolshop.common.User1;
 import schoolshop.cgh.com.schoolshop.common.entity.Good;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.entity.GoodOrder;
 import schoolshop.cgh.com.schoolshop.common.entity.Order;
 import schoolshop.cgh.com.schoolshop.common.entity.OrderDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.Person;
@@ -149,17 +150,17 @@ public class RetrofitSingleton {
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
-    public Observable<List<GoodDetail>> getSellingList(int personId){
+    public Observable<List<GoodOrder>> getSellingList(int personId){
         return sApiService.getSellingList(personId)
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
-    public Observable<List<GoodDetail>> getSelledList(int personId){
+    public Observable<List<GoodOrder>> getSelledList(int personId){
         return sApiService.getSelledList(personId)
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
-    public Observable<List<GoodDetail>> getBoughtList(int personId){
+    public Observable<List<GoodOrder>> getBoughtList(int personId){
         return sApiService.getBoughtList(personId)
                 .compose(RxUtils.rxSchedulerHelper());
     }
@@ -227,6 +228,11 @@ public class RetrofitSingleton {
 
     public Observable<List<GoodDetail>> getGoodDetailByName(String goodName , int offset, int limit, boolean goodDone){
         return sApiService.getGoodDetailByName(goodName , offset , limit , goodDone)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Integer> getOrderDelete(int orderId){
+        return sApiService.getOrderDelete(orderId)
                 .compose(RxUtils.rxSchedulerHelper());
     }
 

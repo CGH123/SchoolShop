@@ -20,7 +20,7 @@
             android:layout_width="70dp"
             android:layout_height="75dp"
             android:layout_margin="10dp"
-            app:srcCompat="@drawable/github" />
+            app:srcCompat="@mipmap/icon" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -36,6 +36,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:textSize="17sp"
+                android:textColor="@color/black"
                 android:text="消息通知" />
 
             <TextView

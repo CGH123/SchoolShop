@@ -47,7 +47,7 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
     private List<GoodDetail> goodList = new ArrayList<>();
     private int good_kind;
     private String searchName = "";
-    private boolean isSearch  = false;
+    private boolean isSearch = false;
     private boolean isLoading = false;
 
     public MainItemFragment() {
@@ -109,6 +109,13 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
 
         //设置Adapter的icon点击事件
         mAdapter.setOnIconClickListener((position) -> {
+            if (Constant.PERSON == null) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                ToastUtil.showShort("请先登录");
+                return;
+            }
             Intent intent = new Intent();
             intent.setClass(getActivity(), PersonPageActivity.class);
             intent.putExtra("personId", goodList.get(position).getPersonId());
@@ -160,17 +167,17 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
     @Override
     public void onRefresh() {
         //模糊搜索只允许在全部搜索选项卡
-        if(good_kind != Constant.Kind_All) {
+        if (good_kind != Constant.Kind_All) {
             shop_search_content.setVisibility(View.GONE);
         }
         // start refresh
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(isSearch){
+                if (isSearch) {
                     isSearch = false;
-                    initRecycleViewByName(searchName , 0 , 20 , false , true);
-                }else{
+                    initRecycleViewByName(searchName, 0, 20, false, true);
+                } else {
                     initRecycleView(0, 20, good_kind, false, true);
                 }
                 mRefreshLayout.setRefreshing(false);
@@ -181,8 +188,8 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
     /**
      * 设置搜索刷新
      */
-    public void onRefreshType(String searchName , boolean type){
-        if(type){
+    public void onRefreshType(String searchName, boolean type) {
+        if (type) {
             isSearch = true;
             this.searchName = searchName;
             mRefreshLayout.setRefreshing(true);

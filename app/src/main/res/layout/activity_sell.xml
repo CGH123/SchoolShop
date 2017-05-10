@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:container_background_color="@color/background"
     android:orientation="vertical">
 
     <ScrollView
@@ -221,12 +222,12 @@
                     android:layout_margin="0dp"
                     android:padding="18dp"
                     app:tag_text_size="17dp"
-                    app:container_background_color="@color/background"
+                    app:container_background_color="@color/label_back"
                     app:container_enable_drag="false"
                     app:horizontal_interval="15dp"
                     app:vertical_interval="10dp"
                     app:tag_clickable="true"
-                    app:tag_theme="pure_cyan" />
+                    app:tag_theme="pure_teal" />
 
                 <!--<EditText
                     android:id="@+id/sell_kind"
@@ -290,7 +291,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/green"
+                android:background="#7accbd"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:text="发布"

@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fitsSystemWindows="true" >
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/login_layout"
@@ -217,7 +217,7 @@
                 android:layout_height="80dp"
                 android:gravity="center|right"
                 android:adjustViewBounds="true"
-                android:background="@drawable/github"
+                android:background="@mipmap/add_photo"
                 android:contentDescription="@string/app_name"
                 android:padding="6dp" />
 
@@ -228,7 +228,7 @@
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:layout_marginTop="30dp"
-            android:background="#ff336699"
+            android:background="#607d8b"
             android:textColor="@android:color/white"
             android:gravity="center"
             android:text="注册"

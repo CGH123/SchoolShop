@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
-        //轮询机制开启,暂时关闭
+        //轮询机制开启
         PollingUtils.startPollingService(this, 6, PollingService.class, PollingService.ACTION);
     }
 
@@ -159,8 +159,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        //TODO暂时关闭侧拉框
-        item.setChecked(true);
+        //item.setChecked(true);
+        switch (item.getItemId()) {
+            case R.id.nav_set:
+
+                break;
+            case R.id.nav_about:
+
+                break;
+        }
+
         mDrawerLayout.closeDrawers();
         return true;
     }

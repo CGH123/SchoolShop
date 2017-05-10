@@ -327,7 +327,7 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
 
             final String path=listUrls.get(position);
             if (path.equals("000000")){
-                holder.image.setImageResource(R.mipmap.ic_add_address);
+                holder.image.setImageResource(R.mipmap.add_photo);
             }else {
                 Glide.with(getActivity())
                         .load(path)
@@ -364,8 +364,8 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
      */
     private ArrayList<int[]> colorInit(int position){
         ArrayList<int[]> colors = new ArrayList<>();
-        int[] color1 = {Color.CYAN, Color.WHITE, Color.WHITE};
-        int[] color2 = {Color.MAGENTA, Color.WHITE, Color.WHITE};
+        int[] color1 = {Color.parseColor("#7accbd"), Color.WHITE, Color.WHITE};
+        int[] color2 = {Color.parseColor("#f8bbd0"), Color.WHITE, Color.WHITE};
         switch (position){
             case -1:
                 colors.add(color1);colors.add(color1);colors.add(color1);

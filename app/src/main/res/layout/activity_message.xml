@@ -15,6 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="9dp"
+                android:textSize="18sp"
+                android:text="商品信息" />
+
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/msg_image"
                 android:layout_width="130dp"
@@ -42,11 +51,10 @@
                 android:id="@+id/msg_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/msg_name"
-                android:layout_below="@+id/msg_name"
-                android:layout_marginTop="20dp"
                 android:textSize="15sp"
-                android:text="数量:1" />
+                android:text="数量:1"
+                android:layout_centerVertical="true"
+                android:layout_alignStart="@+id/msg_name" />
 
             <TextView
                 android:id="@+id/msg_money"
@@ -63,7 +71,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
-                fresco:srcCompat="@mipmap/ic_go_black" />
+                android:src="@mipmap/ic_go_black" />
 
 
         </RelativeLayout>
@@ -73,7 +81,7 @@
     <android.support.v7.widget.CardView
         android:layout_margin="5dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="170dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -87,8 +95,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="17dp"
-                android:layout_marginTop="35dp"
-                android:text="买家信息" />
+                android:layout_marginTop="55dp"
+                android:text="买家称呼" />
 
             <TextView
                 android:id="@+id/textView10"
@@ -114,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="24dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="55dp"
                 android:text="名字" />
 
             <TextView
@@ -149,34 +157,34 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:layout_margin="5dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="130dp"
+        android:layout_margin="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="134dp">
 
 
             <TextView
                 android:id="@+id/textView16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="     客户你可以根据订单信息联系到商家进行线下交易了，交易完了记得回来评价喔"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:text="     客户你可以根据订单信息联系到商家进行线下交易了，交易完了记得回来评价喔"
+                android:textSize="20sp" />
 
             <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fresco:srcCompat="@drawable/github"
-                android:layout_marginEnd="105dp"
-                android:layout_alignBottom="@+id/textView16"
-                android:layout_alignEnd="@+id/textView16" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/icon1"
+                android:layout_marginEnd="97dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignEnd="@+id/textView16"
+                android:layout_marginBottom="24dp" />
 
 
         </RelativeLayout>
@@ -184,6 +192,7 @@
     </android.support.v7.widget.CardView>
 
     <LinearLayout
+        android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="40dp" >
@@ -192,6 +201,7 @@
             android:id="@+id/msg_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:orientation="horizontal">
 
 
@@ -201,7 +211,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:button="@null"
-                android:background="@color/green"
+                android:background="@color/cloudyDark"
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:text="确认交易"/>

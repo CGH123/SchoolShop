@@ -2,7 +2,9 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fitsSystemWindows="true" >
+    android:fitsSystemWindows="true"
+    android:background="@mipmap/default_bg2"
+    >
 
     <RelativeLayout
         android:id="@+id/login_layout"
@@ -10,21 +12,28 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:gravity="center" >
+        android:gravity="center"
+        android:layout_marginTop="99dp"
+        android:background="@drawable/login_bg"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
         <FrameLayout
             android:id="@+id/username_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="55dp"
-            android:gravity="center" >
+            android:layout_marginTop="10dp"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="40dp"
                 android:layout_height="21dp"
+                android:layout_gravity="left|center_vertical"
                 android:layout_marginStart="8dp"
-                android:textSize="17sp"
                 android:text="手机"
-                android:layout_gravity="left|center_vertical" />
+                android:textColor="@color/background"
+                android:textSize="17sp" />
+
             <TextView
                 android:id="@+id/contry_sn"
                 android:layout_width="0dp"
@@ -43,58 +52,64 @@
                 android:layout_height="23dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="10dp"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
             <EditText
                 android:id="@+id/username"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
+                android:background="@null"
                 android:inputType="number"
                 android:maxLength="20"
                 android:paddingLeft="55dp"
-                android:paddingRight="60dp"/>
+                android:paddingRight="60dp"
+                android:textCursorDrawable="@null" />
         </FrameLayout>
+
         <FrameLayout
             android:id="@+id/usercode_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/username_layout"
             android:layout_marginTop="6dp"
-            android:gravity="center" >
+            android:gravity="center">
+
             <EditText
                 android:id="@+id/password"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
+                android:background="@null"
                 android:inputType="textPassword"
-                android:paddingRight="60dp"
                 android:maxLength="20"
-                android:paddingLeft="55dp" >
-            </EditText>
+                android:paddingLeft="55dp"
+                android:paddingRight="60dp"
+                android:textCursorDrawable="@null"></EditText>
+
             <TextView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
                 android:layout_marginStart="7dp"
                 android:text="密码"
 
-                android:textSize="17sp"
-                android:layout_gravity="left|center_vertical" />
+                android:textColor="#ffffff"
+                android:textSize="17sp" />
+
             <Button
                 android:id="@+id/bt_pwd_eye"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="10dp"
-                />
+                android:layout_marginRight="10dp" />
+
             <Button
                 android:id="@+id/bt_pwd_clear"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
-                android:visibility="invisible"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="33dp"
-                />
+                android:visibility="invisible" />
         </FrameLayout>
 
         <Button
@@ -103,11 +118,11 @@
             android:layout_height="40dp"
             android:layout_below="@id/usercode_layout"
             android:layout_marginTop="30dp"
-            android:background="#ff336699"
-            android:textColor="@android:color/white"
-
+            android:background="#55555fff"
             android:gravity="center"
-            android:text="登录" />
+            android:text="登录"
+            android:textColor="#55ffffff" />
+
         <Button
             android:id="@+id/login_error"
             android:layout_width="wrap_content"
@@ -115,9 +130,10 @@
             android:layout_alignRight="@id/login"
             android:layout_below="@id/login"
             android:background="#00000000"
-            android:visibility="invisible"
             android:text="忘记密码"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="visible" />
+
         <Button
             android:id="@+id/register"
             android:layout_width="wrap_content"
@@ -126,7 +142,7 @@
             android:layout_below="@id/login"
             android:background="#00000000"
             android:gravity="left|center_vertical"
-            android:text="注册"
+            android:text=" 注册"
             android:textSize="16sp"
             android:visibility="visible" />
     </RelativeLayout>

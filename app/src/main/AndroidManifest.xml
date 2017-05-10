@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="schoolshop.cgh.com.schoolshop">
 
     <application
@@ -8,6 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        tools:replace="Android:icon, android:theme"
         android:name=".base.BaseApplication"
         android:theme="@style/AppTheme" >
         <activity android:name=".modules.welcome.WelcomeActivity">
@@ -21,14 +23,13 @@
         <activity android:name=".modules.sell.ui.TempActivity"/>
         <activity android:name=".modules.main.ui.ShopDetailActivity"/>
         <activity android:name=".modules.main.ui.PersonPageActivity"/>
-        <activity android:name=".modules.my.ui.SelledActivity"/>
-        <activity android:name=".modules.my.ui.SellingActivity"/>
-        <activity android:name=".modules.my.ui.BuyActivity"/>
+        <activity android:name=".modules.my.ui.TradeActivity"/>
         <activity android:name=".modules.my.ui.FavoriteActivity"/>
         <activity android:name=".modules.my.ui.HelpActivity"/>
         <activity android:name=".modules.message.ui.OrderDetailActivity"/>
         <activity android:name=".modules.my.ui.LoginActivity"/>
         <activity android:name=".modules.my.ui.RegisterActivity"/>
+        <activity android:name=".modules.my.ui.RatingActivity" android:theme="@style/dialogStyle"/>
 
         <!--图片选择器的activity类-->
         <activity

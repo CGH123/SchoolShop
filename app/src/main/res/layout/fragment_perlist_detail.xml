@@ -32,7 +32,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_margin="10dp"
-                fresco:placeholderImage="@drawable/github"
+                fresco:placeholderImage="@drawable/ic_toys_black_24dp"
                 fresco:placeholderImageScaleType="focusCrop"
                 />
 

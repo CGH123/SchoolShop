@@ -48,21 +48,21 @@ public class SharedPreferenceUtil {
         return this;
     }
 
-    public Set<String> getFav(){
-        return mPrefs.getStringSet(Set_Fav , new HashSet<>());
+    public Set<String> getFav(Integer personId) {
+        return mPrefs.getStringSet(Set_Fav + String.valueOf(personId), new HashSet<>());
     }
 
-    public Set<String> getUpvote(){
-        return mPrefs.getStringSet(Set_Upvote , new HashSet<>());
+    public Set<String> getUpvote(Integer personId) {
+        return mPrefs.getStringSet(Set_Upvote + String.valueOf(personId), new HashSet<>());
     }
 
-    public SharedPreferenceUtil putFav(Set<String> strSet) {
-        mPrefs.edit().putStringSet(Set_Fav, strSet).apply();
+    public SharedPreferenceUtil putFav(Integer personId, Set<String> strSet) {
+        mPrefs.edit().putStringSet(Set_Fav + String.valueOf(personId), strSet).apply();
         return this;
     }
 
-    public SharedPreferenceUtil putUpvote(Set<String> strSet) {
-        mPrefs.edit().putStringSet(Set_Upvote, strSet).apply();
+    public SharedPreferenceUtil putUpvote(Integer personId, Set<String> strSet) {
+        mPrefs.edit().putStringSet(Set_Upvote + String.valueOf(personId), strSet).apply();
         return this;
     }
 

@@ -14,6 +14,7 @@ import rx.Observable;
 import schoolshop.cgh.com.schoolshop.common.User1;
 import schoolshop.cgh.com.schoolshop.common.entity.Good;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.entity.GoodOrder;
 import schoolshop.cgh.com.schoolshop.common.entity.Order;
 import schoolshop.cgh.com.schoolshop.common.entity.OrderDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.Person;
@@ -27,6 +28,7 @@ import schoolshop.cgh.com.schoolshop.common.entity.UserDetail;
 
 public interface ApiInterface {
     //主机服务器
+    //String HOST = "http://localhost:8080/ssm/";
     //String HOST = "http://101.200.223.115:8080/ssm/";
     String HOST = "http://192.168.71.2:8080/ssm/";
 
@@ -124,25 +126,31 @@ public interface ApiInterface {
      * 查看我发布中的商品
      */
     @GET("order/selling/{personId}")
-    Observable<List<GoodDetail>> getSellingList(@Path("personId") int personId);
+    Observable<List<GoodOrder>> getSellingList(@Path("personId") int personId);
 
     /**
      * 查看我已售出的商品
      */
     @GET("order/selled/{personId}")
-    Observable<List<GoodDetail>> getSelledList(@Path("personId") int personId);
+    Observable<List<GoodOrder>> getSelledList(@Path("personId") int personId);
 
     /**
      * 查看我买到的商品
      */
     @GET("order/bought/{personId}")
-    Observable<List<GoodDetail>> getBoughtList(@Path("personId") int personId);
+    Observable<List<GoodOrder>> getBoughtList(@Path("personId") int personId);
 
     /**
      * 检查服务器消息通知
      */
     @GET("order/check/{personId}")
     Observable<List<Order>> getOrderNotice(@Path("personId") int personId);
+
+    /**
+     * 删除订单信息
+     */
+    @GET("order/delete/{orderId}")
+    Observable<Integer> getOrderDelete(@Path("orderId") int orderId);
 
     /**
      * 查看还没处理的订单信息

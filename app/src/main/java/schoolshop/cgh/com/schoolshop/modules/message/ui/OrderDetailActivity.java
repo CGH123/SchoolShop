@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -17,7 +18,9 @@ import com.trello.rxlifecycle.components.RxActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import rx.Observable;
+import rx.Subscriber;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.OrderDetail;
@@ -89,14 +92,55 @@ public class OrderDetailActivity extends RxActivity implements View.OnClickListe
                             intent.putExtra("goodDetail", goodDetail);
                             intent.setClass(this, ShopDetailActivity.class);
                             startActivity(intent);
+                            finish();
                         });
                 break;
             case R.id.msg_configure:
-                fetchOrderState(orderDetail.getOrderId() , 2)
-                        .subscribe(aVoid -> {
-                            Toast.makeText(this , "确认收货成功" , Toast.LENGTH_SHORT).show();
-                            finish();
-                        });
+                //Toast.makeText(this , "确认收货成功" , Toast.LENGTH_SHORT).show();
+                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("确定交易吗?")
+                        .setContentText("确认交易后无法撤回")
+                        .setCancelText("取消")
+                        .setConfirmText("确定")
+                        .setCancelClickListener(null)
+                        .setConfirmClickListener(sDialog ->{
+                            fetchOrderState(orderDetail.getOrderId() , 2)
+                                    .subscribe(new Subscriber<Void>() {
+                                        @Override
+                                        public void onCompleted() {
+                                            Log.e("error" , "Order state finished");
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            sDialog
+                                                    .setTitleText("失败!")
+                                                    .setContentText("购买失败，请重新再试")
+                                                    .setConfirmText("OK")
+                                                    .showCancelButton(false)
+                                                    .setConfirmClickListener(sDialog1 -> {
+                                                        sDialog1.dismiss();
+                                                        finish();
+                                                    })
+                                                    .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                        }
+
+                                        @Override
+                                        public void onNext(Void aVoid) {
+                                            sDialog
+                                                    .setTitleText("成功!")
+                                                    .setContentText("请及时对商品评分~~")
+                                                    .setConfirmText("OK")
+                                                    .showCancelButton(false)
+                                                    .setConfirmClickListener(sDialog1 -> {
+                                                        sDialog1.dismiss();
+                                                        finish();
+                                                    })
+                                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                        }
+                                    });
+                        })
+                        .show();
                 break;
         }
     }

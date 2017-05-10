@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hedgehog="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="260dp">
+
+    <com.hedgehog.ratingbar.RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        hedgehog:clickable="true"
+        hedgehog:halfstart="true"
+        hedgehog:starCount="5"
+        hedgehog:starEmpty="@mipmap/star_empty"
+        hedgehog:starFill="@mipmap/star_full"
+        hedgehog:starHalf="@mipmap/star_half"
+        hedgehog:starImageHeight="50dp"
+        hedgehog:starImageWidth="50dp"
+        hedgehog:starImagePadding="5dp"/>
+
+    <EditText
+        android:id="@+id/rating_eval"
+        android:background="@color/rainy"
+        android:gravity="top|left"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/ratingBar"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:hint="请对本次交易进行评价" />
+
+    <!--<EditText
+        android:id="@+id/et_context"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="top|left"
+        android:layout_margin="5dp"
+        android:background="@null"
+        android:hint="选填，添加详细的描述(细节、购买信息、限制原因) 有助于快速卖出"
+        />-->
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="请对本次交易进行评分" />
+
+    <Button
+        android:id="@+id/rating_confirm"
+        android:background="@color/blue_btn_bg_color"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_marginBottom="5dp"
+        android:text="确定" />
+
+    <Button
+        android:id="@+id/rating_cancel"
+        android:background="@color/blue_green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView3"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:text="取消"
+        android:layout_alignTop="@+id/rating_confirm" />
+
+</RelativeLayout>

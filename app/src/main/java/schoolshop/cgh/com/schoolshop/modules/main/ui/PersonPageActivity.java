@@ -109,8 +109,8 @@ public class PersonPageActivity extends BaseActivity{
                             icon_sex.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + R.mipmap.woman));
                         }
                         per_score.setText(String.valueOf(person.getPersonGrade()));
-                        per_sell.setText(String.valueOf(person.getPersonSellnum()));
-                        per_buy.setText(String.valueOf(person.getPersonBuynum()));
+                        per_sell.setText(String.valueOf(person.getPersonSellnum()) + "件");
+                        per_buy.setText(String.valueOf(person.getPersonBuynum()) + "件");
                     }
                 });
 

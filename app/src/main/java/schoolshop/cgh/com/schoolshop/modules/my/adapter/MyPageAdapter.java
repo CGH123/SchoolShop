@@ -16,6 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.entity.GoodOrder;
+import schoolshop.cgh.com.schoolshop.common.entity.Order;
 import schoolshop.cgh.com.schoolshop.common.utils.TimeUtils;
 import schoolshop.cgh.com.schoolshop.component.AnimRecyclerViewAdapter;
 
@@ -27,9 +29,9 @@ public class MyPageAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHold
 
     private static final int TYPE_ITEM = 0;
     private Context mContext;
-    private List<GoodDetail> goodList;
+    private List<GoodOrder> goodList;
 
-    public MyPageAdapter(List<GoodDetail> goodList) {
+    public MyPageAdapter(List<GoodOrder> goodList) {
         this.goodList = goodList;
     }
 
@@ -111,11 +113,31 @@ public class MyPageAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHold
             ButterKnife.bind(this , itemView);
         }
 
-        private void bind (GoodDetail goodDetail){
+        private void bind (GoodOrder goodOrder){
+            GoodDetail goodDetail = goodOrder.getGoodDetail();
+            Order order = goodOrder.getOrder();
             his_images.setImageURI(Uri.parse(goodDetail.getGoodImagelist().split(";")[0]));
             his_name.setText(goodDetail.getPersonName());
             his_price.setText("$" + String.valueOf(goodDetail.getGoodPrice()) + "元");
             his_date.setText(TimeUtils.getMD(goodDetail.getGoodTime()));
+
+            //对order_State进行判断,获得状态
+            if(order == null){
+                his_state.setText("上架中");
+            }else{
+                switch (order.getOrderState()){
+                    case 3:
+                        his_state.setText("已完成");
+                        break;
+                    case 2:
+                        his_state.setText("待评价");
+                        break;
+                    case 1:
+                    case 0:
+                        his_state.setText("待确认");
+                        break;
+                }
+            }
         }
 
     }

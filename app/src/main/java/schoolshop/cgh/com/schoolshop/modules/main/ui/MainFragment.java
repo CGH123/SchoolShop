@@ -62,6 +62,15 @@ public class MainFragment extends BaseFragment implements View.OnClickListener{
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(searchItem != null && searchItem.mRefreshLayout != null){
+            searchItem.mRefreshLayout.setRefreshing(true);
+            searchItem.onRefresh();
+        }
+    }
+
     private void initView(){
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();

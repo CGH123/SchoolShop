@@ -32,7 +32,7 @@
                     android:layout_marginEnd="30dp"
                     app:allow_random_color="false"
                     app:btn_color="@android:color/darker_gray"
-                    app:btn_fill_color="#FF6666"
+                    app:btn_fill_color="@color/blue_green"
                     app:click_animation_duration="200"
                     app:shine_animation_duration="500"
                     app:siShape="@raw/like" />
@@ -266,7 +266,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:button="@null"
-                android:background="@color/green"
+                android:background="@color/cloudyDark"
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:text="立刻购买"/>
