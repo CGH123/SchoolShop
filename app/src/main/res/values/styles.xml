@@ -57,6 +57,11 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="Collapsing" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="dialogStyle">
         <!--设置dialog的背景-->
         <item name="android:windowBackground">@android:color/transparent</item>

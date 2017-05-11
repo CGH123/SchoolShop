@@ -71,7 +71,7 @@ public class TradeActivity extends BaseActivity {
     private void init(){
         setSupportActionBar(id_toolbar);
         ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.github);
+        ab.setHomeAsUpIndicator(R.mipmap.app_icon);
         ab.setDisplayHomeAsUpEnabled(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

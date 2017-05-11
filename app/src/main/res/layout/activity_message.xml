@@ -178,13 +178,13 @@
                 android:textSize="20sp" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/icon1"
-                android:layout_marginEnd="97dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/app_icon"
+                android:layout_marginEnd="103dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignEnd="@+id/textView16"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="30dp" />
 
 
         </RelativeLayout>

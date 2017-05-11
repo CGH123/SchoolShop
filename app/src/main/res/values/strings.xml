@@ -1,6 +1,8 @@
 <resources>
 
-    <string name="app_name">校园交易平台</string>
+    <string name="app_name">校易+</string>
+    <string name="app_name_detail">(School Online Second-hand Trade)</string>
+    <string name="app_name_content">\ \ \ 校易+是一款校园二手交易平台软件，用户可以把自己的闲置物品放置在平台上，用户可以在平台上进行自由交易，实现闲置物品的充分利用</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -22,17 +24,18 @@
     <string name="chage_icon">更换图标</string>
     <string name="nav_city">选择城市</string>
     <string name="setting">设置</string>
-    <string name="about">关于</string>
+    <string name="know_us">了解更多</string>
+    <string name="about">关于我们</string>
     <string name="multi_cities">多城市管理</string>
     <string name="double_exit">再按一次退出</string>
     <string name="complete">加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,</string>
     <string name="errorLocation">定位失败,加载默认城市</string>
     <string name="loading">加载中</string>
 
-    <string name="aboutContent">就看天气该应用就是如同它的名字一样，只做一个单纯、简单的看天气软件。这么多天气软件，你选择了我，这是我的幸运。\n从15年10月上线，到目前经历两次重大改版，一次代码的重构，一次界面的大幅度改动，目的都是为了你们。
-    在开源的过程中，收到了很多来自有趣的你们的邮件。\n我也曾遇到过棘手的问题无处咨询又谷歌不到。那个时候的我，也可能是现在的你。所以我希望能够帮助到你。</string>
-    <string name="open_source">• RxJava: github.com/ReactiveX/RxJava\n• RxAndroid: github.com/ReactiveX/RxAndroid\n• Retrofit: github.com/square/retrofit\n• Glide: github.com/bumptech/glide\n• YujunZhu 设计师提供多城市卡片设计\n• 和风天气提供数据支持\n• 高德定位提供位置定位服务</string>
-    <string name="bugTableUrl">https://www.wenjuan.com/s/YbqANfc/</string>
+    <string name="aboutus_copyright">Copyright © 2017 By Chenguanghui , Maying</string>
+    <string name="aboutus_text">上图表明开发过程中的心情历程~</string>
+    <string name="aboutus_text2">还有很多需要完善的地方\n欢迎各位指正，谢谢</string>
+
     <string-array name="icons">
         <item>图标一</item>
         <item>图标二</item>

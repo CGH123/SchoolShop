@@ -5,7 +5,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/github"
+        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".modules.main.ui.MainActivity" />
-        <activity android:name=".modules.sell.ui.TempActivity"/>
         <activity android:name=".modules.main.ui.ShopDetailActivity"/>
         <activity android:name=".modules.main.ui.PersonPageActivity"/>
         <activity android:name=".modules.my.ui.TradeActivity"/>
@@ -29,6 +28,9 @@
         <activity android:name=".modules.message.ui.OrderDetailActivity"/>
         <activity android:name=".modules.my.ui.LoginActivity"/>
         <activity android:name=".modules.my.ui.RegisterActivity"/>
+        <activity android:name=".modules.about.ui.AboutActivity"/>
+        <activity android:name=".modules.about.ui.KnowActivity"/>
+        <activity android:name=".modules.my.ui.PersonActivity"/>
         <activity android:name=".modules.my.ui.RatingActivity" android:theme="@style/dialogStyle"/>
 
         <!--图片选择器的activity类-->

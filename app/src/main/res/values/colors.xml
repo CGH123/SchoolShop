@@ -45,7 +45,8 @@
     <color name="navdrawer_background">#ffffffff</color>
 
     <color name="photopicker_background">#8affffff</color>
-
+    <color name="background_normal">#fffffbf0</color>
+    <color name="background_normal_press">#ffece7da</color>
 
     <color name="colorSunrise">#0D4A6A</color>
     <color name="colorSunset">#201D45</color>

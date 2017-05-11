@@ -17,11 +17,9 @@ import java.util.List;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.Result;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
-import schoolshop.cgh.com.schoolshop.common.User1;
 import schoolshop.cgh.com.schoolshop.common.entity.Good;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodOrder;
@@ -60,7 +58,6 @@ public class RetrofitSingleton {
         private static final RetrofitSingleton INSTANCE = new RetrofitSingleton();
     }
 
-
     private void initOkHttp(){
         //TODO 自定义自己的oktttp3
     }
@@ -95,23 +92,6 @@ public class RetrofitSingleton {
     /**
      * 下面为对与服务器交互的数据进行线程调度
      */
-
-    public Observable<User1> fetchUser() {
-        return sApiService.mUserAPI()
-                .flatMap(userAPI -> Observable.from(userAPI))
-                .compose(RxUtils.rxSchedulerHelper());
-    }
-
-    public Observable<Result<Void>> postUser() {
-        return sApiService.mUserAPI1(new User1("300" , "chenguagnhui"))
-                .compose(RxUtils.rxSchedulerHelper());
-    }
-
-    public Observable<User1> postPicture(List<MultipartBody.Part> parts) {
-        return sApiService.uploadMemberIcon(parts)
-                .flatMap(userList -> Observable.from(userList))
-                .compose(RxUtils.rxSchedulerHelper());
-    }
 
     public Observable<GoodDetail> getGoodList(int offset , int limit , boolean goodDone) {
         return sApiService.getGoodList(offset , limit , goodDone)
@@ -233,6 +213,11 @@ public class RetrofitSingleton {
 
     public Observable<Integer> getOrderDelete(int orderId){
         return sApiService.getOrderDelete(orderId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Person> postRegisterIcon(int personId, boolean personSex, String personName, List<MultipartBody.Part> partList){
+        return sApiService.postRegisterIcon(personId, personSex, personName, partList)
                 .compose(RxUtils.rxSchedulerHelper());
     }
 

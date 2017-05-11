@@ -1,5 +1,6 @@
 package schoolshop.cgh.com.schoolshop.modules.main.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -22,6 +23,8 @@ import schoolshop.cgh.com.schoolshop.common.utils.DoubleClickExit;
 import schoolshop.cgh.com.schoolshop.common.utils.PollingUtils;
 import schoolshop.cgh.com.schoolshop.common.utils.ToastUtil;
 import schoolshop.cgh.com.schoolshop.component.PollingService;
+import schoolshop.cgh.com.schoolshop.modules.about.ui.AboutActivity;
+import schoolshop.cgh.com.schoolshop.modules.about.ui.KnowActivity;
 import schoolshop.cgh.com.schoolshop.modules.message.ui.MessageFragment;
 import schoolshop.cgh.com.schoolshop.modules.my.ui.MyFragment;
 import schoolshop.cgh.com.schoolshop.modules.sell.ui.SellFragment;
@@ -63,7 +66,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mNavigationView.setNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
         ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.github);
+        ab.setHomeAsUpIndicator(R.mipmap.app_icon);
         ab.setDisplayHomeAsUpEnabled(true);
         //一开始先隐藏actionbar
         ab.hide();
@@ -137,20 +140,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
         switch (checkedId) {
             case R.id.main_home:
-                ab.hide();
                 changeFragment(0);
+                ab.hide();
                 break;
             case R.id.main_sell:
-                ab.show();
                 changeFragment(1);
+                ab.show();
                 break;
             case R.id.main_info:
-                ab.show();
                 changeFragment(2);
+                ab.show();
                 break;
             case R.id.main_my:
-                ab.show();
                 changeFragment(3);
+                ab.show();
                 break;
             default:
                 break;
@@ -162,15 +165,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //item.setChecked(true);
         switch (item.getItemId()) {
             case R.id.nav_set:
-
+                //设置界面
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(this , KnowActivity.class));
                 break;
             case R.id.nav_about:
-
+                //关于界面
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(this, AboutActivity.class));
                 break;
         }
-
-        mDrawerLayout.closeDrawers();
-        return true;
+        return false;
     }
 
     //点击操作可以弹出左边的菜单栏

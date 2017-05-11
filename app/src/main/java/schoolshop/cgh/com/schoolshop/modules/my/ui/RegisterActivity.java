@@ -115,7 +115,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                                 @Override
                                                 public void onCompleted() {
                                                     Toast.makeText(getApplicationContext() , "注册成功" , Toast.LENGTH_SHORT).show();
-                                                    //TODO 跳转到相关的界面之中
                                                     finish();
                                                 }
 
@@ -223,13 +222,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     /**
      * 网络部分的内容
      */
-    public Observable<UserDetail> fetchRegister(UserDetail userDetail){
+    private Observable<UserDetail> fetchRegister(UserDetail userDetail){
         return RetrofitSingleton.getInstance()
                 .postRegisterPerson(userDetail)
                 .compose(this.bindToLifecycle());
     }
 
-    public Observable<Person> fetchRegister(int personId , List<MultipartBody.Part> partList){
+    private Observable<Person> fetchRegister(int personId , List<MultipartBody.Part> partList){
         return RetrofitSingleton.getInstance()
                 .postRegisterPerson(personId , partList)
                 .compose(this.bindToLifecycle());

@@ -74,8 +74,9 @@ public class MainFragment extends BaseFragment implements View.OnClickListener{
     private void initView(){
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.github);
+        ab.setHomeAsUpIndicator(R.mipmap.app_icon);
         ab.setDisplayHomeAsUpEnabled(true);
+
         //下面添加Tab的属性
         HomePagerAdapter mHomePagerAdapter = new HomePagerAdapter(getActivity().getSupportFragmentManager());
         //曲线救国，不建议这么做，在fragment中设置好不同的参数

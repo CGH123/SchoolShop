@@ -25,7 +25,7 @@ public class WelcomeActivity extends RxActivity{
         setContentView(R.layout.activity_welcome);
         welcomeImg = (RelativeLayout) this.findViewById(R.id.welcome_img);
         AlphaAnimation anima = new AlphaAnimation(0.5f, 1.0f);
-        anima.setDuration(2500);// 设置动画显示时间
+        anima.setDuration(3000);// 设置动画显示时间
         welcomeImg.startAnimation(anima);
         anima.setAnimationListener(new AnimationImpl());
 

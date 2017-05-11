@@ -8,9 +8,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,7 +93,7 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.icon_skip)
     ImageView icon_skip;
     @BindView(R.id.layout_icon)
-    LinearLayout person_layout;
+    RelativeLayout person_layout;
 
     //其他Activity传递过来的信息
     GoodDetail goodDetail;

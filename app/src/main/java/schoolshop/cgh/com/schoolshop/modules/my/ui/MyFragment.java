@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +38,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
     @BindView(R.id.my_help)
     RelativeLayout my_help;
     @BindView(R.id.layout_icon)
-    LinearLayout layout_icon;
+    RelativeLayout layout_icon;
     @BindView(R.id.icon_name)
     TextView icon_name;
     @BindView(R.id.icon_sex)
@@ -72,10 +71,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
     public void onStart() {
         super.onStart();
         if(Constant.PERSON == null){
+            icon_icon.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + R.mipmap.ic_account));
+            icon_sex.setVisibility(View.INVISIBLE);
             icon_name.setText("点击登录");
+            per_score.setText("5.0");
+            per_sell.setText("0" + "件");
+            per_buy.setText("0" + "件");
         }else{
             icon_icon.setImageURI(Uri.parse(Constant.PERSON.getPersonIcon()));
             icon_name.setText(Constant.PERSON.getPersonName());
+            icon_sex.setVisibility(View.VISIBLE);
             if(Constant.PERSON.getPersonSex()){
                 icon_sex.setImageURI(Uri.parse("res://schoolshop.cgh.com.schoolshop/" + R.mipmap.man));
             }else{
@@ -140,6 +145,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
             case R.id.layout_icon:
                 if(Constant.PERSON == null){
                     intent.setClass(getActivity() , LoginActivity.class);
+                    startActivity(intent);
+                }else{
+                    intent.setClass(getActivity() , PersonActivity.class);
                     startActivity(intent);
                 }
                 break;
