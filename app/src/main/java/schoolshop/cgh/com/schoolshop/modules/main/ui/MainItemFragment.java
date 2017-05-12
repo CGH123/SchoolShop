@@ -47,7 +47,8 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
     private List<GoodDetail> goodList = new ArrayList<>();
     private int good_kind;
     private String searchName = "";
-    private boolean isSearch = false;
+    private boolean isSearch = false;         //下拉刷新是否在搜索栏中
+    private boolean isSearchNext = false;     //加载更多时是否在搜索栏中
     private boolean isLoading = false;
 
     public MainItemFragment() {
@@ -144,7 +145,11 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
                             @Override
                             public void run() {
                                 //执行加载更新更多的操作
-                                initRecycleView(goodList.size(), 20, good_kind, false, false);
+                                if(isSearchNext){
+                                    initRecycleViewByName(searchName, goodList.size(), 20, false, false);
+                                }else{
+                                    initRecycleView(goodList.size(), 20, good_kind, false, false);
+                                }
                                 Log.d("test", "load more completed");
                                 isLoading = false;
                             }
@@ -176,8 +181,10 @@ public class MainItemFragment extends BaseFragment implements SwipeRefreshLayout
             public void run() {
                 if (isSearch) {
                     isSearch = false;
+                    isSearchNext = true;
                     initRecycleViewByName(searchName, 0, 20, false, true);
                 } else {
+                    isSearchNext = false;
                     initRecycleView(0, 20, good_kind, false, true);
                 }
                 mRefreshLayout.setRefreshing(false);
