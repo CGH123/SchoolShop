@@ -23,6 +23,7 @@ import rx.Observable;
 import rx.Subscriber;
 import schoolshop.cgh.com.schoolshop.R;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
+import schoolshop.cgh.com.schoolshop.common.entity.Order;
 import schoolshop.cgh.com.schoolshop.common.entity.OrderDetail;
 import schoolshop.cgh.com.schoolshop.common.utils.TimeUtils;
 import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
@@ -105,7 +106,7 @@ public class OrderDetailActivity extends RxActivity implements View.OnClickListe
                         .setCancelClickListener(null)
                         .setConfirmClickListener(sDialog ->{
                             fetchOrderState(orderDetail.getOrderId() , 2)
-                                    .subscribe(new Subscriber<Void>() {
+                                    .subscribe(new Subscriber<Order>() {
                                         @Override
                                         public void onCompleted() {
                                             Log.e("error" , "Order state finished");
@@ -126,7 +127,7 @@ public class OrderDetailActivity extends RxActivity implements View.OnClickListe
                                         }
 
                                         @Override
-                                        public void onNext(Void aVoid) {
+                                        public void onNext(Order order) {
                                             sDialog
                                                     .setTitleText("成功!")
                                                     .setContentText("请及时对商品评分~~")
@@ -167,7 +168,7 @@ public class OrderDetailActivity extends RxActivity implements View.OnClickListe
                 .compose(this.bindToLifecycle());
     }
 
-    private Observable<Void> fetchOrderState(int orderId , int state){
+    private Observable<Order> fetchOrderState(int orderId , int state){
         return RetrofitSingleton.getInstance()
                 .postOrderState(orderId , state);
     }

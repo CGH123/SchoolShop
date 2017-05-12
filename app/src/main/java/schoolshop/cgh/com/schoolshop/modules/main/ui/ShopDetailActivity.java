@@ -32,7 +32,6 @@ import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.Order;
 import schoolshop.cgh.com.schoolshop.common.utils.SharedPreferenceUtil;
 import schoolshop.cgh.com.schoolshop.common.utils.TimeUtils;
-import schoolshop.cgh.com.schoolshop.common.utils.ToastUtil;
 import schoolshop.cgh.com.schoolshop.component.RetrofitSingleton;
 import schoolshop.cgh.com.schoolshop.modules.my.ui.LoginActivity;
 import schoolshop.cgh.com.schoolshop.modules.my.ui.RatingActivity;
@@ -209,11 +208,14 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
                 break;
         }
 
-        if(!goodDetail.getGoodDone()){
+        if(!goodDetail.getGoodDone() && goodDetail.getPersonId().equals(Constant.PERSON.getPersonId())){
             //发布中的商品
             shop_buy.setOnClickListener(this);
+            shop_buy.setText("取消上架");
+        }else if(!goodDetail.getGoodDone() && !goodDetail.getPersonId().equals(Constant.PERSON.getPersonId())){
+            shop_buy.setOnClickListener(this);
             shop_buy.setText("立刻购买");
-        }else if(goodDetail.getGoodDone() && tradeOrder == null){
+        } else if(goodDetail.getGoodDone() && tradeOrder == null){
             //从收藏夹传递过来的
             shop_buy.setText("已下架");
         }else if(goodDetail.getGoodDone() && tradeOrder.getOrderBuyid().equals(Constant.PERSON.getPersonId())){
@@ -259,7 +261,37 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
         if(tradeOrder == null){
             //下面进行购买按钮的操作
             if(goodDetail.getPersonId().equals(Constant.PERSON.getPersonId())){
-                ToastUtil.showShort("无法购买自己发布的商品");
+                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("确定下架吗?")
+                        .setCancelText("取消")
+                        .setConfirmText("确定")
+                        .setCancelClickListener(null)
+                        .setConfirmClickListener(sDialog -> {
+                            fetchDeleteGood(goodDetail.getGoodId())
+                                    .subscribe(integer -> {
+                                        if(integer == 1){
+                                            sDialog.setTitleText("下架成功!")
+                                                    .setConfirmText("OK")
+                                                    .showCancelButton(false)
+                                                    .setConfirmClickListener(sDialog1 -> {
+                                                        sDialog1.dismiss();
+                                                        finish();
+                                                    })
+                                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                        }else{
+                                            sDialog
+                                                    .setTitleText("下架失败!")
+                                                    .setConfirmText("OK")
+                                                    .showCancelButton(false)
+                                                    .setConfirmClickListener(sDialog1 -> {
+                                                        sDialog1.dismiss();
+                                                        finish();
+                                                    })
+                                                    .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                        }
+                                    });
+                        })
+                        .show();
                 return;
             }
 
@@ -486,6 +518,12 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
     private Observable<Integer> fetchOrderDelete(int orderId){
         return RetrofitSingleton.getInstance()
                 .getOrderDelete(orderId)
+                .compose(this.bindToLifecycle());
+    }
+
+    private Observable<Integer> fetchDeleteGood(int goodId){
+        return RetrofitSingleton.getInstance()
+                .postDeleteGood(goodId)
                 .compose(this.bindToLifecycle());
     }
 

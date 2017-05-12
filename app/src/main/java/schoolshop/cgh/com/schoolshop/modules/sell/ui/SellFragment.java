@@ -119,6 +119,7 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
                         .subscribe(new Subscriber<Good>() {
                             @Override
                             public void onCompleted() {
+                                clearView();
                                 Toast.makeText(getActivity() , "发布成功" , Toast.LENGTH_SHORT).show();
                             }
 
@@ -168,6 +169,17 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
         radioButton.setOnClickListener(this);
     }
 
+    private void clearView(){
+        sell_name.setText("");
+        sell_number.setText("");
+        et_context.setText("");
+        sell_price.setText("");
+        sell_cost_price.setText("");
+        good_kind = 0;
+        sell_tag.setTags(tags , colorInit(-1));
+        loadAdpater(new ArrayList<>());
+    }
+
     private boolean sellInit(){
         String good_num_str , good_price_str , good_original_price_str;
         good_name = sell_name.getText().toString();
@@ -191,7 +203,7 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
             Toast.makeText(getActivity() , "商品照片不能为空" , Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(good_kind == 0){
+        if(good_kind == null || good_kind == 0){
             Toast.makeText(getActivity() , "商品类型不能为空" , Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -249,7 +261,7 @@ public class SellFragment extends BaseFragment implements AdapterView.OnItemClic
     @Override
     public void onTagClick(int position, String text) {
         sell_tag.setTags(tags , colorInit(position));
-        good_kind = position + 1;
+        good_kind = position + 2;
     }
 
     @Override

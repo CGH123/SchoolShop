@@ -20,6 +20,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
+import schoolshop.cgh.com.schoolshop.common.entity.Eval;
 import schoolshop.cgh.com.schoolshop.common.entity.Good;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodOrder;
@@ -155,6 +156,11 @@ public class RetrofitSingleton {
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
+    public Observable<Integer> postDeleteGood(int goodId){
+        return sApiService.postDeleteGood(goodId)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
     public Observable<Void> getUpvote(int goodId , int num){
         return sApiService.getUpvote(goodId , num)
                 .compose(RxUtils.rxSchedulerHelper());
@@ -176,7 +182,7 @@ public class RetrofitSingleton {
                 .compose(RxUtils.rxSchedulerHelper());
     }
 
-    public Observable<Void> postOrderState(int orderId , int state){
+    public Observable<Order> postOrderState(int orderId , int state){
         return sApiService.postOrderState(orderId , state)
                 .compose(RxUtils.rxSchedulerHelper());
     }
@@ -218,6 +224,11 @@ public class RetrofitSingleton {
 
     public Observable<Person> postRegisterIcon(int personId, boolean personSex, String personName, List<MultipartBody.Part> partList){
         return sApiService.postRegisterIcon(personId, personSex, personName, partList)
+                .compose(RxUtils.rxSchedulerHelper());
+    }
+
+    public Observable<Integer> postInsertEval(Eval eval){
+        return sApiService.postInsertEval(eval)
                 .compose(RxUtils.rxSchedulerHelper());
     }
 

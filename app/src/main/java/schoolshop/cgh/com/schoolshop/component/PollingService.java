@@ -55,7 +55,7 @@ public class PollingService extends Service {
         builder = new Notification.Builder(this);//新建Notification.Builder对象
         builder.setContentTitle("新订单通知");
         builder.setContentText("你发布的商品有新的消息，请注意查收");
-        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setSmallIcon(R.mipmap.app_icon);
         builder.setWhen(System.currentTimeMillis());
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(pendingIntent);//执行intent
@@ -112,7 +112,7 @@ public class PollingService extends Service {
                 .getOrderNotice(personId);
     }
 
-    private Observable<Void> fetchOrderState(int orderId , int state){
+    private Observable<Order> fetchOrderState(int orderId , int state){
         return RetrofitSingleton.getInstance()
                 .postOrderState(orderId , state);
     }

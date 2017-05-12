@@ -166,7 +166,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/linearLayout"
                 android:orientation="horizontal">
 
@@ -175,7 +175,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/linearLayout"
-                    android:layout_margin="5dp"
+                    android:layout_margin="3dp"
                     android:text="备注备注备注备注备注注备注备注"
                     android:textSize="13dp" />
 

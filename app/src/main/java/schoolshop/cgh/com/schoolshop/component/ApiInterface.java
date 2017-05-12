@@ -10,6 +10,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import rx.Observable;
+import schoolshop.cgh.com.schoolshop.common.entity.Eval;
 import schoolshop.cgh.com.schoolshop.common.entity.Good;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodDetail;
 import schoolshop.cgh.com.schoolshop.common.entity.GoodOrder;
@@ -72,6 +73,12 @@ public interface ApiInterface {
     @Multipart
     @POST("good/sell/{goodId}")
     Observable<Good> postSellImage(@Path("goodId") int goodId, @Part List<MultipartBody.Part> partList);
+
+    /**
+     * 删除发布的商品
+     */
+    @GET("good/delete/{goodId}")
+    Observable<Integer> postDeleteGood(@Path("goodId") int goodId);
 
     /**
      * 点赞量增加
@@ -157,7 +164,7 @@ public interface ApiInterface {
      * 回应订单的状态更新
      */
     @POST("order/state/{orderId}/{state}")
-    Observable<Void> postOrderState(@Path("orderId") int orderId, @Path("state") int state);
+    Observable<Order> postOrderState(@Path("orderId") int orderId, @Path("state") int state);
 
     /**
      * 购买下单
@@ -182,5 +189,11 @@ public interface ApiInterface {
      */
     @GET("favorite/insert/{personId}/{goodId}")
     Observable<Integer> getInsertFav(@Path("personId") int personId, @Path("goodId") int goodId);
+
+    /**
+     * 客户评价信息记录
+     */
+    @POST("eval/insert")
+    Observable<Integer> postInsertEval(@Body Eval eval);
 
 }
